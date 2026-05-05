@@ -137,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (el.closest('.loc-card')) return 'location_card';
     if (el.closest('.utility-social')) return 'utility_social';
     if (el.closest('.megamenu') || el.closest('.submenu')) return 'nav';
+    if (el.closest('.sponsors')) return 'sponsors';
     if (el.closest('.cta-band')) return 'cta_band';
     if (el.closest('.site-footer')) return 'footer';
     if (el.closest('.card')) return 'card';
@@ -145,6 +146,24 @@ document.addEventListener('DOMContentLoaded', () => {
   function detectLocationFromHref(href) {
     if (/8778/.test(href) || /west/i.test(href)) return 'west';
     if (/15687/.test(href) || /east/i.test(href)) return 'east';
+    return null;
+  }
+  function detectCourtReserveOrg(href) {
+    if (/\/8778(?:[/?#]|$)|[?&](?:orgId|organizationId)=8778\b/.test(href)) return '8778';
+    if (/\/15687(?:[/?#]|$)|[?&](?:orgId|organizationId)=15687\b/.test(href)) return '15687';
+    return null;
+  }
+  function detectEventType(label, href) {
+    const value = `${label} ${href}`.toLowerCase();
+    if (value.includes('open play') || value.includes('gbt6ftib7o8778')) return 'open_play';
+    if (value.includes('clinic') || value.includes('lesson') || value.includes('yjt') || value.includes('qmvl')) return 'clinic_or_lesson';
+    if (value.includes('tournament') || value.includes('springspickleballtournaments.com')) return 'tournament';
+    if (value.includes('dupr') || value.includes('rated')) return 'dupr';
+    if (value.includes('social') || value.includes('paddle up')) return 'social';
+    if (value.includes('youth')) return 'youth';
+    if (value.includes('intro')) return 'intro';
+    if (href.includes('/Events/') || href.includes('/Leagues/')) return 'courtreserve_event';
+    if (href.includes('tab=explore')) return 'events_explore';
     return null;
   }
   function detectLinkKind(a, href) {
@@ -181,12 +200,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const label = cleanText(a.textContent) || cleanText(a.getAttribute('aria-label')) || a.href;
     const linkKind = detectLinkKind(a, href);
     const location = detectLocationFromHref(href);
+    const courtreserveOrgId = detectCourtReserveOrg(href);
+    const eventType = detectEventType(label, href);
     const props = {
       source,
       label,
       href,
       link_kind: linkKind,
       location,
+      courtreserve_org_id: courtreserveOrgId,
+      event_type: eventType,
+      destination_host: a.hostname || null,
       outbound: a.origin !== window.location.origin,
     };
 
@@ -204,29 +228,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Court booking clicks
     if (href.includes('publicbookings/8778') && !href.includes('tab=explore')) {
-      track('book_court_clicked', { location: 'west', kind: 'guest', source, label });
+      track('book_court_clicked', { location: 'west', kind: 'guest', source, label, href });
+      track('court_booking_clicked', { location: 'west', booking_type: 'guest_court', source, label, href });
     } else if (href.includes('publicbookings/15687') && !href.includes('tab=explore')) {
-      track('book_court_clicked', { location: 'east', kind: 'guest', source, label });
+      track('book_court_clicked', { location: 'east', kind: 'guest', source, label, href });
+      track('court_booking_clicked', { location: 'east', booking_type: 'guest_court', source, label, href });
     } else if (href.includes('EmbedCode/8778/24144')) {
-      track('book_court_clicked', { location: 'west', kind: 'member_schedule', source, label });
+      track('book_court_clicked', { location: 'west', kind: 'member_schedule', source, label, href });
+      track('court_booking_clicked', { location: 'west', booking_type: 'member_schedule', source, label, href });
     } else if (href.includes('EmbedCode/15687/45222')) {
-      track('book_court_clicked', { location: 'east', kind: 'member_schedule', source, label });
+      track('book_court_clicked', { location: 'east', kind: 'member_schedule', source, label, href });
+      track('court_booking_clicked', { location: 'east', booking_type: 'member_schedule', source, label, href });
+    }
+
+    // CourtReserve event and event-discovery clicks
+    if (
+      href.includes('/Online/Events/') ||
+      href.includes('/Online/Leagues/') ||
+      href.includes('tab=explore') ||
+      href.includes('springspickleballtournaments.com')
+    ) {
+      track('event_registration_clicked', {
+        location,
+        event_type: eventType,
+        courtreserve_org_id: courtreserveOrgId,
+        source,
+        label,
+        href,
+      });
     }
 
     // Memberships page navigation (nav tab, hero CTA, footer, etc.)
     if (/\/memberships\.html(?:[?#]|$)/.test(href) || href.endsWith('memberships.html')) {
-      track('memberships_clicked', { source, label });
+      track('memberships_clicked', { source, label, href });
+      track('membership_interest_clicked', { source, label, href });
     }
 
     // Membership signup clicks
     if (href.includes('membershipId=253681')) {
-      track('membership_signup_clicked', { location: 'west', promo: 'summer_special', source, label });
+      track('membership_signup_clicked', { location: 'west', promo: 'summer_special', source, label, href });
     } else if (href.includes('membershipId=253683')) {
-      track('membership_signup_clicked', { location: 'east', promo: 'summer_special', source, label });
+      track('membership_signup_clicked', { location: 'east', promo: 'summer_special', source, label, href });
     } else if (href.includes('Memberships/Public/8778')) {
-      track('membership_signup_clicked', { location: 'west', source, label });
+      track('membership_signup_clicked', { location: 'west', source, label, href });
     } else if (href.includes('Memberships/Public/15687')) {
-      track('membership_signup_clicked', { location: 'east', source, label });
+      track('membership_signup_clicked', { location: 'east', source, label, href });
+    }
+
+    if (linkKind === 'app_store' || linkKind === 'google_play') {
+      track('app_download_clicked', { store: linkKind === 'app_store' ? 'apple' : 'google', source, label, href });
+    }
+
+    if (linkKind === 'social') {
+      track('social_link_clicked', { source, label, href, destination_host: a.hostname || null });
     }
   });
 

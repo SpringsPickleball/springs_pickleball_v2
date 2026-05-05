@@ -89,6 +89,7 @@ const FLEX_RATES = {
 // ---------------------------------------------------------------
 
 const state = { billing: 'annual', party: 'single' };
+let calculatorStarted = false;
 
 function planVariant(plan) {
   return plan.variants[state.party]?.[state.billing] || null;
@@ -114,6 +115,25 @@ function trackMembershipEvent(name, props = {}) {
     ...props,
     billing: state.billing,
     party: state.party,
+  });
+}
+
+function calculatorInputs() {
+  return {
+    open_play_sessions_per_week: parseFloat(document.getElementById('calc-openplay')?.value) || 0,
+    court_hours_per_week: parseFloat(document.getElementById('calc-court')?.value) || 0,
+    leagues_per_year: parseFloat(document.getElementById('calc-leagues')?.value) || 0,
+    tournaments_per_year: parseFloat(document.getElementById('calc-tourneys')?.value) || 0,
+    couples: Boolean(document.getElementById('calc-couples')?.checked),
+  };
+}
+
+function trackCalculatorStarted(source) {
+  if (calculatorStarted) return;
+  calculatorStarted = true;
+  trackMembershipEvent('membership_calculator_started', {
+    source,
+    ...calculatorInputs(),
   });
 }
 
@@ -183,6 +203,9 @@ function bindToggles() {
 // ---------------------------------------------------------------
 
 function calculate() {
+  trackCalculatorStarted('calculate_button');
+  trackMembershipEvent('membership_calculator_calculate_clicked', calculatorInputs());
+
   const openPlays = parseFloat(document.getElementById('calc-openplay').value) || 0;
   const courtHrs = parseFloat(document.getElementById('calc-court').value) || 0;
   const leagues = parseFloat(document.getElementById('calc-leagues').value) || 0;
@@ -293,6 +316,8 @@ function calculate() {
 }
 
 function resetCalculator() {
+  trackMembershipEvent('membership_calculator_reset_clicked', calculatorInputs());
+
   ['calc-openplay', 'calc-court', 'calc-leagues', 'calc-tourneys'].forEach(id => {
     const input = document.getElementById(id);
     if (input) input.value = '0';
@@ -317,6 +342,27 @@ function resetCalculator() {
 document.addEventListener('DOMContentLoaded', () => {
   renderPlans();
   bindToggles();
+  ['calc-openplay', 'calc-court', 'calc-leagues', 'calc-tourneys'].forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
+    input.addEventListener('change', () => {
+      trackCalculatorStarted(id);
+      trackMembershipEvent('membership_calculator_input_changed', {
+        field: id.replace('calc-', ''),
+        ...calculatorInputs(),
+      });
+    });
+  });
+  const couples = document.getElementById('calc-couples');
+  if (couples) {
+    couples.addEventListener('change', () => {
+      trackCalculatorStarted('calc-couples');
+      trackMembershipEvent('membership_calculator_input_changed', {
+        field: 'couples',
+        ...calculatorInputs(),
+      });
+    });
+  }
   const calcBtn = document.getElementById('calc-btn');
   if (calcBtn) calcBtn.addEventListener('click', calculate);
   const calcReset = document.getElementById('calc-reset');
