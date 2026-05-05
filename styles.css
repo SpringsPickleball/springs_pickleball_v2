@@ -1062,6 +1062,13 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   transition: opacity 0.2s, filter 0.2s;
 }
 .sponsor-logos img:hover { opacity: 1; filter: none; }
+.sponsors.partners { border-top: 0; }
+.sponsor-logos-featured img {
+  max-width: min(240px, 70vw);
+  max-height: 150px;
+  opacity: 1;
+  filter: none;
+}
 
 /* ===== Events list ===== */
 .event {
