@@ -144,16 +144,15 @@ function renderPlans() {
 
   Object.entries(PLANS).forEach(([key, plan]) => {
     const variant = planVariant(plan);
-    const unavailable = !variant;
+    if (!variant) return;
 
     const el = document.createElement('div');
-    el.className = 'plan' + (plan.featured ? ' featured' : '') + (unavailable ? ' unavailable' : '');
+    el.className = 'plan' + (plan.featured ? ' featured' : '');
     el.innerHTML = `
       <h3>${plan.name}</h3>
-      ${variant ? `<div class="price">${money(variant.amount)}<small>${variant.label}</small></div>` : '<div class="price price-unavailable">Not listed</div>'}
+      <div class="price">${money(variant.amount)}<small>${variant.label}</small></div>
       ${variant?.name ? `<p class="plan-variant">${variant.name}</p>` : ''}
       ${variant?.billingText ? `<p class="plan-note">${variant.billingText}</p>` : ''}
-      ${unavailable ? '<p class="plan-note">This combination is not currently listed on CourtReserve.</p>' : ''}
       ${plan.description ? `<p>${plan.description}</p>` : ''}
       <ul>${plan.perks.map(p => `<li>${p}</li>`).join('')}</ul>
       <div class="plan-ctas">
