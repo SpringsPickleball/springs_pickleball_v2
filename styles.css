@@ -1608,6 +1608,16 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   border: 0;
 }
 
+@media (max-width: 768px) {
+  #event-inquiry-form {
+    padding-bottom: 2rem;
+  }
+
+  .contact-form-embed iframe {
+    min-height: 1900px;
+  }
+}
+
 /* ===== Membership toggles ===== */
 .membership-special {
   display: flex;
