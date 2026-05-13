@@ -19,6 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Hide one-off event cards after their final event date. Recurring cards stay visible.
+  const today = new Date();
+  const todayKey = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, '0'),
+    String(today.getDate()).padStart(2, '0'),
+  ].join('-');
+  document.querySelectorAll('.event-card[data-event-end]').forEach(card => {
+    const eventEnd = card.getAttribute('data-event-end');
+    if (/^\d{4}-\d{2}-\d{2}$/.test(eventEnd) && todayKey > eventEnd) {
+      card.hidden = true;
+    }
+  });
+
   // Dropdown / megamenu open-close
   const isDesktop = () => window.matchMedia('(min-width: 981px)').matches;
   const dropdowns = document.querySelectorAll('.nav-links > li.has-dropdown');
