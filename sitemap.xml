@@ -25,6 +25,10 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://springspickleball.com/become-a-sponsor/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://springspickleball.com/faq.html</loc>
     <priority>0.6</priority>
   </url>

@@ -11,10 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Mark active nav link based on current page
-  const path = window.location.pathname.split('/').pop() || 'index.html';
+  const pathname = window.location.pathname;
+  const path = pathname === '/become-a-sponsor/' ? '/become-a-sponsor/' : (pathname.split('/').pop() || 'index.html');
   document.querySelectorAll('.nav-links > li > a').forEach(a => {
     const href = a.getAttribute('href');
-    if (href === path || (path === '' && href === 'index.html')) {
+    if (
+      href === path ||
+      (path === 'index.html' && (href === 'index.html' || href === '/' || href === './'))
+    ) {
       a.classList.add('active');
     }
   });
@@ -127,8 +131,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // PostHog: named events for site interest and booking funnel
-  const pagePath = window.location.pathname || '/';
-  const pageName = pagePath.split('/').pop() || 'index.html';
+  function normalizeAnalyticsPath(path) {
+    const value = path || '/';
+    if (value === '/index.html' || value === '/index' || value === '') return '/';
+    return value.replace(/\/index\.html$/, '/');
+  }
+  const pagePath = normalizeAnalyticsPath(window.location.pathname);
+  const pageName = pagePath === '/' ? 'home' : (pagePath.split('/').filter(Boolean).pop() || 'home');
   const baseProps = () => ({
     page: pageName,
     path: pagePath,
@@ -205,6 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
   track('site_page_viewed', {
     referrer: document.referrer || null,
   });
+  if (document.querySelector('.sponsor-page')) {
+    track('sponsor_page_view', {
+      referrer: document.referrer || null,
+    });
+  }
 
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a');
@@ -229,6 +243,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     track('site_link_clicked', props);
+
+    const sponsorEvent = a.getAttribute('data-sponsor-event');
+    if (sponsorEvent) {
+      const interest = a.getAttribute('data-interest') || null;
+      track(sponsorEvent, {
+        ...props,
+        interest,
+      });
+      if (sponsorEvent === 'sponsor_card_click' && interest && a.hash === '#form') {
+        const url = new URL(window.location.href);
+        url.searchParams.set('interest', interest);
+        url.hash = 'form';
+        window.history.replaceState(null, '', url);
+      }
+    }
 
     if (
       a.classList.contains('btn') ||
