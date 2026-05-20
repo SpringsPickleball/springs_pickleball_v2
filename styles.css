@@ -1093,11 +1093,22 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   display: inline-block;
   color: var(--main);
   font-family: var(--font-head);
-  font-weight: 800;
-  font-size: 0.84rem;
-  letter-spacing: 0.18em;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
   margin-bottom: 1rem;
   text-transform: uppercase;
+}
+.sponsor-page h1,
+.sponsor-page h2,
+.sponsor-page h3 {
+  font-weight: 700;
+}
+.sponsor-page em {
+  font-style: normal;
+}
+.sponsor-page strong {
+  font-weight: 600;
 }
 .sponsor-hero h1 {
   color: var(--white);
@@ -1136,8 +1147,8 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   flex: 0 0 auto;
   font-family: var(--font-head);
   font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 .sponsor-jump-nav a:hover { color: var(--accent); }
@@ -1147,10 +1158,10 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   gap: 3rem;
   align-items: center;
 }
-.section-lead {
+.sponsor-page .section-lead {
   color: var(--black);
   font-size: 1.12rem;
-  font-weight: 700;
+  font-weight: 500;
 }
 .icon-list,
 .check-list,
@@ -1176,14 +1187,14 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 .roi-list li::before {
   color: var(--green-deep);
   content: "✓";
-  font-weight: 900;
+  font-weight: 700;
   left: 0;
   position: absolute;
 }
 .highlight-line {
   border-left: 4px solid var(--main);
   color: var(--black);
-  font-weight: 700;
+  font-weight: 500;
   margin: 1.5rem 0 0;
   padding-left: 1rem;
 }
@@ -1213,6 +1224,7 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   color: var(--main);
   font-family: var(--font-head);
   font-size: 2rem;
+  font-weight: 700;
   line-height: 1;
 }
 .stat-ribbon span {
@@ -1238,7 +1250,7 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 .audience-stats {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .stat-block {
   background: var(--white);
@@ -1252,12 +1264,13 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   display: block;
   font-family: var(--font-head);
   font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
   line-height: 1;
   margin-bottom: 0.8rem;
 }
 .stat-block span {
   color: var(--muted);
-  font-weight: 700;
+  font-weight: 500;
 }
 .partnership-grid {
   display: grid;
@@ -1368,7 +1381,7 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   color: var(--black);
   display: inline-flex;
   font-family: var(--font-head);
-  font-weight: 900;
+  font-weight: 700;
   height: 42px;
   justify-content: center;
   margin-bottom: 1rem;
@@ -1421,7 +1434,7 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 }
 .sponsor-contact a {
   color: var(--accent);
-  font-weight: 800;
+  font-weight: 700;
 }
 .sponsor-contact a:hover {
   color: var(--green-deep);
@@ -2165,7 +2178,17 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   font-weight: 900;
   margin: 0.25rem 0;
 }
+.calc-savings-total {
+  color: var(--green-deep);
+}
 .calc-total small { font-size: 1rem; font-weight: 400; color: var(--muted); }
+.calc-dues,
+.calc-kids-note {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0.25rem auto 0;
+  max-width: 560px;
+}
 .calc-save {
   font-weight: 700;
   color: var(--black);
