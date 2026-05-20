@@ -45,6 +45,7 @@ const PLANS = {
     perks: [
       'Free court rentals for doubles play',
       'Free open play sessions',
+      'Children under 18 receive Flex rates',
       '9-day advance reservations',
       'Free drilling and singles time when courts are available',
       '50% off Springs Pickleball leagues and tournaments',
@@ -61,6 +62,7 @@ const PLANS = {
     description: 'The ultimate membership with free court rentals, open play, leagues, tournaments, clinics, and guest passes.',
     perks: [
       'Free open play and court rentals for doubles play',
+      'Children under 18 receive Flex rates',
       'Free Springs Pickleball-hosted leagues and tournaments',
       '1 free clinic per month ($30 value)',
       '10-day advance reservations',
@@ -73,7 +75,8 @@ const GUEST_RATES = {
   openPlay: 14,        // per 2-hr session
   courtPerHr: 30,      // per hour (full court up to 6)
   league: 120,         // per 6-week league
-  tournament: 50,      // per tournament entry
+  tournament: 60,      // typical tournament entry
+  clinic: 30,          // per clinic
 };
 
 // Flex-member rates for calculator
@@ -81,7 +84,7 @@ const FLEX_RATES = {
   openPlay: 7,
   courtPerHr: 15,
   league: 96,          // ~20% off
-  tournament: 40,
+  tournament: 48,      // ~20% off
 };
 
 // ---------------------------------------------------------------
@@ -109,6 +112,10 @@ function moneyMonthly(n) {
   return '$' + Math.round(n).toLocaleString();
 }
 
+function inputNumber(id) {
+  return Math.max(0, parseFloat(document.getElementById(id)?.value) || 0);
+}
+
 function trackMembershipEvent(name, props = {}) {
   if (!window.spTrack) return;
   window.spTrack(name, {
@@ -120,11 +127,12 @@ function trackMembershipEvent(name, props = {}) {
 
 function calculatorInputs() {
   return {
-    open_play_sessions_per_week: parseFloat(document.getElementById('calc-openplay')?.value) || 0,
-    court_hours_per_week: parseFloat(document.getElementById('calc-court')?.value) || 0,
-    leagues_per_year: parseFloat(document.getElementById('calc-leagues')?.value) || 0,
-    tournaments_per_year: parseFloat(document.getElementById('calc-tourneys')?.value) || 0,
-    kids_under_18_free_flex: parseFloat(document.getElementById('calc-kids')?.value) || 0,
+    open_play_sessions_per_week: inputNumber('calc-openplay'),
+    court_hours_per_week: inputNumber('calc-court'),
+    leagues_per_year: inputNumber('calc-leagues'),
+    tournaments_per_year: inputNumber('calc-tourneys'),
+    clinics_per_month: inputNumber('calc-clinics'),
+    kids_under_18_free_flex: inputNumber('calc-kids'),
     couples: Boolean(document.getElementById('calc-couples')?.checked),
   };
 }
@@ -206,107 +214,117 @@ function calculate() {
   trackCalculatorStarted('calculate_button');
   trackMembershipEvent('membership_calculator_calculate_clicked', calculatorInputs());
 
-  const openPlays = parseFloat(document.getElementById('calc-openplay').value) || 0;
-  const courtHrs = parseFloat(document.getElementById('calc-court').value) || 0;
-  const leagues = parseFloat(document.getElementById('calc-leagues').value) || 0;
-  const tourneys = parseFloat(document.getElementById('calc-tourneys').value) || 0;
-  const kids = Math.max(0, parseFloat(document.getElementById('calc-kids')?.value) || 0);
+  const openPlays = inputNumber('calc-openplay');
+  const courtHrs = inputNumber('calc-court');
+  const leagues = inputNumber('calc-leagues');
+  const tourneys = inputNumber('calc-tourneys');
+  const clinics = inputNumber('calc-clinics');
+  const kids = inputNumber('calc-kids');
   const couples = document.getElementById('calc-couples').checked;
 
   const adultPlayers = couples ? 2 : 1;
-  const totalPlayers = adultPlayers + kids;
 
-  // Weekly events scaled to yearly
-  const yearlyOpenPlay = openPlays * 52 * totalPlayers;
-  const yearlyCourtHrs = courtHrs * 52 * totalPlayers;
-  const yearlyLeagues = leagues * totalPlayers;
-  const yearlyTourneys = tourneys * totalPlayers;
+  // Weekly events scaled to yearly for paying adult players.
+  const yearlyOpenPlay = openPlays * 52 * adultPlayers;
+  const yearlyCourtHrs = courtHrs * 52 * adultPlayers;
+  const yearlyLeagues = leagues * adultPlayers;
+  const yearlyTourneys = tourneys * adultPlayers;
+  const yearlyClinics = clinics * 12 * adultPlayers;
   const adultYearlyOpenPlay = openPlays * 52 * adultPlayers;
   const adultYearlyCourtHrs = courtHrs * 52 * adultPlayers;
   const adultYearlyLeagues = leagues * adultPlayers;
   const adultYearlyTourneys = tourneys * adultPlayers;
-  const kidYearlyOpenPlay = openPlays * 52 * kids;
-  const kidYearlyCourtHrs = courtHrs * 52 * kids;
-  const kidYearlyLeagues = leagues * kids;
-  const kidYearlyTourneys = tourneys * kids;
+  const adultYearlyClinics = clinics * 12 * adultPlayers;
 
   const guestYearly =
     yearlyOpenPlay * GUEST_RATES.openPlay +
     yearlyCourtHrs * GUEST_RATES.courtPerHr +
     yearlyLeagues * GUEST_RATES.league +
-    yearlyTourneys * GUEST_RATES.tournament;
+    yearlyTourneys * GUEST_RATES.tournament +
+    yearlyClinics * GUEST_RATES.clinic;
 
   // Cost under each plan uses current annual pricing from CourtReserve.
   const party = couples ? 'couples' : 'single';
-  const freeFlexKidUsage =
-    kidYearlyOpenPlay * FLEX_RATES.openPlay +
-    kidYearlyCourtHrs * FLEX_RATES.courtPerHr +
-    kidYearlyLeagues * FLEX_RATES.league +
-    kidYearlyTourneys * FLEX_RATES.tournament;
 
   const flexMembership = planAnnualCost(PLANS.flex, 'annual', party);
   const flexUsage =
-    yearlyOpenPlay * FLEX_RATES.openPlay +
-    yearlyCourtHrs * FLEX_RATES.courtPerHr +
-    yearlyLeagues * FLEX_RATES.league +
-    yearlyTourneys * FLEX_RATES.tournament;
+    adultYearlyOpenPlay * FLEX_RATES.openPlay +
+    adultYearlyCourtHrs * FLEX_RATES.courtPerHr +
+    adultYearlyLeagues * FLEX_RATES.league +
+    adultYearlyTourneys * FLEX_RATES.tournament +
+    adultYearlyClinics * GUEST_RATES.clinic;
   const flexTotal = flexMembership + flexUsage;
 
   const unlimitedMembership = planAnnualCost(PLANS.unlimited, 'annual', party);
   const unlimitedUsage =
-    adultYearlyLeagues * GUEST_RATES.league * 0.5 + // 50% off leagues
+    adultYearlyLeagues * GUEST_RATES.league * 0.5 +
     adultYearlyTourneys * GUEST_RATES.tournament * 0.5 +
-    freeFlexKidUsage;
+    adultYearlyClinics * GUEST_RATES.clinic; // Unlimited gets 50% off adult events; clinics are paid separately.
   const unlimitedTotal = unlimitedMembership + unlimitedUsage;
 
   const options = [
-    { key: 'guest', name: 'Pay as Guest', total: guestYearly, dues: 0, usage: guestYearly },
-    { key: 'flex', name: PLANS.flex.variants[party].annual.name || PLANS.flex.name, total: flexTotal, dues: flexMembership, usage: flexUsage },
-    { key: 'unlimited', name: PLANS.unlimited.variants[party].annual.name || PLANS.unlimited.name, total: unlimitedTotal, dues: unlimitedMembership, usage: unlimitedUsage },
+    { key: 'guest', name: 'Pay as Guest', total: guestYearly, dues: 0, usage: guestYearly, includedValue: 0 },
+    { key: 'flex', name: PLANS.flex.variants[party].annual.name || PLANS.flex.name, total: flexTotal, dues: flexMembership, usage: flexUsage, includedValue: 0 },
+    { key: 'unlimited', name: PLANS.unlimited.variants[party].annual.name || PLANS.unlimited.name, total: unlimitedTotal, dues: unlimitedMembership, usage: unlimitedUsage, includedValue: 0 },
   ];
 
   const plusMembership = planAnnualCost(PLANS.unlimited_plus, 'annual', party);
   if (plusMembership !== null) {
-    const plusUsage = freeFlexKidUsage;
+    const includedClinicsMonthly = Math.min(clinics, 1) * adultPlayers;
+    const paidClinicsMonthly = Math.max(0, clinics - 1) * adultPlayers;
+    const plusUsage = paidClinicsMonthly * 12 * GUEST_RATES.clinic; // Unlimited+ includes adult leagues, tournaments, and one clinic per month.
+    const plusIncludedValue = includedClinicsMonthly * 12 * GUEST_RATES.clinic;
     options.push({
       key: 'unlimited_plus',
       name: PLANS.unlimited_plus.variants[party].annual.name || PLANS.unlimited_plus.name,
       total: plusMembership + plusUsage,
       dues: plusMembership,
       usage: plusUsage,
+      includedValue: plusIncludedValue,
     });
   }
 
-  options.sort((a, b) => a.total - b.total);
+  options.forEach(option => {
+    option.comparisonTotal = option.total;
+  });
+  options.sort((a, b) => a.comparisonTotal - b.comparisonTotal);
 
   const best = options[0];
-  const vsGuest = guestYearly - best.total;
+  const vsGuest = guestYearly - best.comparisonTotal;
   const guestMonthly = guestYearly / 12;
   const bestMonthly = best.total / 12;
   const bestDuesMonthly = best.dues / 12;
   const bestUsageMonthly = best.usage / 12;
+  const bestIncludedMonthly = best.includedValue / 12;
   const monthlySavings = Math.max(0, vsGuest / 12);
-  const annualSavings = Math.max(0, vsGuest);
   const bestIsMembership = best.key !== 'guest';
-  const kidsNote = kids > 0
-    ? `<p class="calc-kids-note">Includes ${kids} kid${kids === 1 ? '' : 's'} under 18 at $0 Free Flex dues, with Free Flex usage pricing applied to their play.</p>`
+  const bestIncludesFreeFlexKids = kids > 0 && ['unlimited', 'unlimited_plus'].includes(best.key);
+  const kidsNote = bestIncludesFreeFlexKids
+    ? `<p class="calc-kids-note">Under-18 discount: ${kids} kid${kids === 1 ? '' : 's'} ${kids === 1 ? 'gets' : 'get'} Flex rates with no added Flex dues.</p>`
+    : '';
+  const includedValueNote = bestIncludedMonthly > 0
+    ? `<p class="calc-kids-note">Includes ${moneyMonthly(bestIncludedMonthly)}/mo clinic value.</p>`
     : '';
   const savingsLead = monthlySavings > 0
-    ? `${moneyMonthly(monthlySavings)}<small>/mo estimated savings</small>`
-    : `$0<small>/mo estimated savings</small>`;
-  const savingsSubhead = monthlySavings > 0
-    ? `<p class="calc-save">About ${money(annualSavings)}/yr less than guest pricing</p>`
-    : '<p class="calc-save muted">Guest pricing is currently your lowest estimate.</p>';
+    ? `${moneyMonthly(monthlySavings)}<small>/mo saved versus guest pricing</small>`
+    : `$0<small>/mo saved versus guest pricing</small>`;
+  const duesDetail = bestIsMembership
+    ? `${moneyMonthly(bestDuesMonthly)}/mo dues${bestUsageMonthly > 0 ? ` + ${moneyMonthly(bestUsageMonthly)}/mo usage` : ''}`
+    : 'pay as you play';
 
   const out = document.getElementById('calc-result');
   out.innerHTML = `
     <div class="calc-recommend">
-      <span class="eyebrow">Best Savings Match</span>
+      <span class="eyebrow">Best Fit</span>
       <h3>${best.name}</h3>
+      <div class="calc-cost-line">
+        <span>Estimated monthly total</span>
+        <strong>${moneyMonthly(bestMonthly)}<small>/mo</small></strong>
+      </div>
+      <p class="calc-dues">${duesDetail}</p>
       <p class="calc-total calc-savings-total">${savingsLead}</p>
-      ${savingsSubhead}
-      <p class="calc-dues">Estimated total: ${moneyMonthly(bestMonthly)}/mo (${money(best.total)}/yr)${bestIsMembership ? `; plan dues ${moneyMonthly(bestDuesMonthly)}/mo${bestUsageMonthly > 0 ? ` + about ${moneyMonthly(bestUsageMonthly)}/mo usage` : ''}` : ''}</p>
       ${kidsNote}
+      ${includedValueNote}
     </div>
     <div class="calc-snapshot">
       <div>
@@ -323,17 +341,15 @@ function calculate() {
       </div>
     </div>
     <div class="calc-breakdown">
-      <h4>Savings and estimated costs:</h4>
+      <h4>Plan comparison</h4>
       <ol>
         ${options.map(o => {
-          const usageText = o.key !== 'guest' && o.usage > 0 ? `, includes about ${moneyMonthly(o.usage / 12)}/mo usage` : '';
-          const duesText = o.key !== 'guest' ? ` dues ${moneyMonthly(o.dues / 12)}/mo${usageText}` : ' pay-as-you-play';
-          const optionSavings = Math.max(0, guestYearly - o.total);
+          const optionSavings = Math.max(0, guestYearly - o.comparisonTotal);
           const savingsText = o.key !== 'guest' ? `, saves ${moneyMonthly(optionSavings / 12)}/mo` : '';
-          return `<li><strong>${o.name}</strong> — ${moneyMonthly(o.total / 12)}/mo${savingsText} <span>(${money(o.total)}/yr; ${duesText})</span></li>`;
+          return `<li><strong>${o.name}</strong> — ${moneyMonthly(o.total / 12)}/mo${savingsText} <span>(${money(o.total)}/yr)</span></li>`;
         }).join('')}
       </ol>
-      <p class="calc-note">Estimates separate membership dues from projected usage. Kids under 18 are modeled with $0 Free Flex dues. Prime-time, weekend, and event-specific pricing may vary.</p>
+      <p class="calc-note">All values are estimates and subject to change. Kids under 18 are noted as a benefit only and are not factored into play or usage cost estimates. Unlimited+ savings includes up to one $30 clinic per month. With Unlimited or Unlimited+, kids under 18 get Flex pricing with no added Flex dues. Prime-time and event pricing may vary.</p>
     </div>
   `;
   out.style.display = 'block';
@@ -343,6 +359,7 @@ function calculate() {
     court_hours_per_week: courtHrs,
     leagues_per_year: leagues,
     tournaments_per_year: tourneys,
+    clinics_per_month: clinics,
     kids_under_18_free_flex: kids,
     couples,
     best_plan_key: best.key,
@@ -357,7 +374,7 @@ function calculate() {
 function resetCalculator() {
   trackMembershipEvent('membership_calculator_reset_clicked', calculatorInputs());
 
-  ['calc-openplay', 'calc-court', 'calc-leagues', 'calc-tourneys', 'calc-kids'].forEach(id => {
+  ['calc-openplay', 'calc-court', 'calc-leagues', 'calc-tourneys', 'calc-clinics', 'calc-kids'].forEach(id => {
     const input = document.getElementById(id);
     if (input) input.value = '0';
   });
@@ -381,7 +398,7 @@ function resetCalculator() {
 document.addEventListener('DOMContentLoaded', () => {
   renderPlans();
   bindToggles();
-  ['calc-openplay', 'calc-court', 'calc-leagues', 'calc-tourneys', 'calc-kids'].forEach(id => {
+  ['calc-openplay', 'calc-court', 'calc-leagues', 'calc-tourneys', 'calc-clinics', 'calc-kids'].forEach(id => {
     const input = document.getElementById(id);
     if (!input) return;
     input.addEventListener('change', () => {
