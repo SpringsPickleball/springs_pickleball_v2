@@ -263,9 +263,9 @@ function calculate() {
   const unlimitedTotal = unlimitedMembership + unlimitedUsage;
 
   const options = [
-    { key: 'guest', name: 'Pay as Guest', total: guestYearly, dues: 0, usage: guestYearly, includedValue: 0 },
-    { key: 'flex', name: PLANS.flex.variants[party].annual.name || PLANS.flex.name, total: flexTotal, dues: flexMembership, usage: flexUsage, includedValue: 0 },
-    { key: 'unlimited', name: PLANS.unlimited.variants[party].annual.name || PLANS.unlimited.name, total: unlimitedTotal, dues: unlimitedMembership, usage: unlimitedUsage, includedValue: 0 },
+    { key: 'guest', name: 'Pay as Guest', total: guestYearly, dues: 0, usage: guestYearly, includedValue: 0, benefitRank: 0 },
+    { key: 'flex', name: PLANS.flex.variants[party].annual.name || PLANS.flex.name, total: flexTotal, dues: flexMembership, usage: flexUsage, includedValue: 0, benefitRank: 1 },
+    { key: 'unlimited', name: PLANS.unlimited.variants[party].annual.name || PLANS.unlimited.name, total: unlimitedTotal, dues: unlimitedMembership, usage: unlimitedUsage, includedValue: 0, benefitRank: 2 },
   ];
 
   const plusMembership = planAnnualCost(PLANS.unlimited_plus, 'annual', party);
@@ -273,7 +273,10 @@ function calculate() {
     const includedClinicsMonthly = Math.min(clinics, 1) * adultPlayers;
     const paidClinicsMonthly = Math.max(0, clinics - 1) * adultPlayers;
     const plusUsage = paidClinicsMonthly * 12 * GUEST_RATES.clinic; // Unlimited+ includes adult leagues, tournaments, and one clinic per month.
-    const plusIncludedValue = includedClinicsMonthly * 12 * GUEST_RATES.clinic;
+    const plusIncludedValue =
+      adultYearlyLeagues * GUEST_RATES.league +
+      adultYearlyTourneys * GUEST_RATES.tournament +
+      includedClinicsMonthly * 12 * GUEST_RATES.clinic;
     options.push({
       key: 'unlimited_plus',
       name: PLANS.unlimited_plus.variants[party].annual.name || PLANS.unlimited_plus.name,
@@ -281,13 +284,18 @@ function calculate() {
       dues: plusMembership,
       usage: plusUsage,
       includedValue: plusIncludedValue,
+      benefitRank: 3,
     });
   }
 
   options.forEach(option => {
     option.comparisonTotal = option.total;
   });
-  options.sort((a, b) => a.comparisonTotal - b.comparisonTotal);
+  options.sort((a, b) => {
+    const costDifference = a.comparisonTotal - b.comparisonTotal;
+    if (Math.abs(costDifference) > 1) return costDifference;
+    return b.benefitRank - a.benefitRank;
+  });
 
   const best = options[0];
   const vsGuest = guestYearly - best.comparisonTotal;
@@ -303,7 +311,7 @@ function calculate() {
     ? `<p class="calc-kids-note">Under-18 discount: ${kids} kid${kids === 1 ? '' : 's'} ${kids === 1 ? 'gets' : 'get'} Flex rates with no added Flex dues.</p>`
     : '';
   const includedValueNote = bestIncludedMonthly > 0
-    ? `<p class="calc-kids-note">Includes ${moneyMonthly(bestIncludedMonthly)}/mo clinic value.</p>`
+    ? `<p class="calc-kids-note">Includes ${moneyMonthly(bestIncludedMonthly)}/mo in league, tournament, and clinic value.</p>`
     : '';
   const savingsLead = monthlySavings > 0
     ? `${moneyMonthly(monthlySavings)}<small>/mo saved versus guest pricing</small>`
@@ -349,7 +357,7 @@ function calculate() {
           return `<li><strong>${o.name}</strong> — ${moneyMonthly(o.total / 12)}/mo${savingsText} <span>(${money(o.total)}/yr)</span></li>`;
         }).join('')}
       </ol>
-      <p class="calc-note">All values are estimates and subject to change. Kids under 18 are noted as a benefit only and are not factored into play or usage cost estimates. Unlimited+ savings includes up to one $30 clinic per month. With Unlimited or Unlimited+, kids under 18 get Flex pricing with no added Flex dues. Prime-time and event pricing may vary.</p>
+      <p class="calc-note">All values are estimates and subject to change. Kids under 18 are noted as a benefit only and are not factored into play or usage cost estimates. Unlimited+ savings includes Springs Pickleball-hosted leagues and tournaments plus up to one $30 clinic per month. With Unlimited or Unlimited+, kids under 18 get Flex pricing with no added Flex dues. Prime-time and event pricing may vary.</p>
     </div>
   `;
   out.style.display = 'block';
