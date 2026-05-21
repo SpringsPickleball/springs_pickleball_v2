@@ -167,8 +167,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return 'other';
   }
   function detectLocationFromHref(href) {
-    if (/8778/.test(href) || /west/i.test(href)) return 'west';
-    if (/15687/.test(href) || /east/i.test(href)) return 'east';
+    const courtreserveOrgId = detectCourtReserveOrg(href);
+    if (courtreserveOrgId === '8778') return 'west';
+    if (courtreserveOrgId === '15687') return 'east';
+    if (/west/i.test(href)) return 'west';
+    if (/east/i.test(href)) return 'east';
     return null;
   }
   function detectCourtReserveOrg(href) {
