@@ -1472,6 +1472,9 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   display: flex;
   flex-direction: column;
 }
+.event-card[hidden] {
+  display: none;
+}
 .event-card .event-photo {
   aspect-ratio: 4/3;
   overflow: hidden;
