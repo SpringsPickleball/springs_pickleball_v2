@@ -33,7 +33,20 @@
       "Bash(npx wrangler *)",
       "Bash(curl -s \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-06-22&endDate=2026-07-22\" -H \"Origin: https://springspickleball.com\" -w \"\\\\nHTTP:%{http_code}\\\\n\")",
       "Bash(curl -s -i \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-06-22&endDate=2026-07-22\" -H \"Origin: https://springspickleball.com\")",
-      "Bash(curl -s -i \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-06-22&endDate=2026-07-22\" -H \"Origin: null\")"
+      "Bash(curl -s -i \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-06-22&endDate=2026-07-22\" -H \"Origin: null\")",
+      "Bash(curl -s \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-05-18&endDate=2026-10-20\" -H \"Origin: https://springspickleball.com\" -o /tmp/cal_live.json -w \"%{http_code}\\\\n\")",
+      "Bash(curl -s \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-06-22&endDate=2026-07-22\" -H \"Origin: https://springspickleball.com\" -o /tmp/cal_live2.json -w \"%{http_code}\\\\n\")",
+      "Bash(curl -s \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-05-18&endDate=2026-06-22\" -H \"Origin: https://springspickleball.com\")",
+      "Bash(python3 -c \"import json,sys; print\\(len\\(json.load\\(sys.stdin\\)['events']\\)\\)\")",
+      "Bash(curl -s \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-05-18&endDate=2026-05-23\" -H \"Origin: https://springspickleball.com\")",
+      "Bash(curl -s \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-06-22&endDate=2026-06-27\" -H \"Origin: https://springspickleball.com\")",
+      "Bash(curl -s \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-05-18&endDate=2026-10-20\" -H \"Origin: https://springspickleball.com\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(len\\(d['events']\\), d.get\\('failed'\\)\\)\")",
+      "Bash(curl -s -u \"Org_8778:8778_cfa20362-5d58-4b7b-a457-9818ffb23ca5\" \"https://api.courtreserve.com/api/v1/eventcalendar/eventlist?startDate=2026-05-18&endDate=2026-10-20\" -w \"\\\\nHTTP:%{http_code}\\\\n\")",
+      "Bash(node -e ' *)",
+      "Bash(curl -s \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-06-07&endDate=2026-09-25\" -H \"Origin: https://springspickleball.com\" -o /tmp/cal_real.json -w \"%{http_code}\\\\n\")",
+      "Bash(curl -s \"https://springs-pickleball-calendar.jdavisdev.workers.dev/?startDate=2026-01-01&endDate=2026-12-31\" -H \"Origin: https://springspickleball.com\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('events',len\\(d['events']\\),'failed',d.get\\('failed'\\)\\)\")"
     ]
   }
 }

@@ -44,7 +44,10 @@ export default {
         headers: { Authorization: 'Basic ' + btoa(`${loc.username}:${loc.password}`) }
       });
       const data = await res.json();
-      if (!data || data.IsSuccessStatusCode === false) {
+      // CourtReserve can return IsSuccessStatusCode: true with an
+      // ErrorMessage and Data: null (e.g. when the date range exceeds its
+      // 120-day max), so ErrorMessage alone must be treated as a failure.
+      if (!data || data.ErrorMessage || data.IsSuccessStatusCode === false) {
         throw new Error((data && data.ErrorMessage) || `Request failed for ${loc.name}`);
       }
       return (data.Data || []).map((ev) => Object.assign({}, ev, { Location: loc.name }));

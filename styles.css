@@ -2468,6 +2468,27 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 }
 .calendar-nav { display: flex; align-items: center; gap: 0.6rem; }
 .cal-icon-btn { padding: 0.55rem 1rem; line-height: 1; font-size: 1.1rem; }
+.cal-today-btn {
+  background: var(--accent);
+  color: var(--white) !important;
+  font-family: var(--font-head);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.85rem;
+  padding: 0.65rem 1.3rem;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(11,84,162,0.22);
+  transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.cal-today-btn:hover {
+  background: var(--accent-dark);
+  color: var(--white) !important;
+  box-shadow: 0 10px 22px rgba(7,56,109,0.28);
+  transform: translateY(-1px);
+}
 .cal-range-label {
   font-family: var(--font-head);
   font-size: 1.1rem;

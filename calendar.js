@@ -11,8 +11,11 @@
   var DEFAULT_CATEGORY_KEYWORDS = ['social', 'tournament'];
   var CACHE_KEY = 'sp_calendar_events_v1';
   var CACHE_TTL_MS = 5 * 60 * 1000;
-  var FETCH_PAST_DAYS = 35;
-  var FETCH_FUTURE_DAYS = 120;
+  // CourtReserve's eventlist endpoint errors out above a 120-day window
+  // (it returns IsSuccessStatusCode: true with no Data, no useful error
+  // status - see cf-worker), so every fetch must stay under that.
+  var MAX_RANGE_DAYS = 110;
+  var PAST_BUFFER_DAYS = 15;
 
   var state = {
     view: 'week',
@@ -87,18 +90,13 @@
     if (viewStart >= state.fetchedRange.start && viewEnd <= state.fetchedRange.end) {
       return Promise.resolve();
     }
-    var range = [
-      addDays(viewStart, -FETCH_PAST_DAYS),
-      addDays(viewEnd, FETCH_FUTURE_DAYS)
-    ];
-    return fetchAndStore({ start: range[0], end: range[1] });
+    var start = addDays(viewStart, -PAST_BUFFER_DAYS);
+    return fetchAndStore({ start: start, end: addDays(start, MAX_RANGE_DAYS) });
   }
 
   function defaultRange() {
-    return {
-      start: addDays(state.anchor, -FETCH_PAST_DAYS),
-      end: addDays(state.anchor, FETCH_FUTURE_DAYS)
-    };
+    var start = addDays(state.anchor, -PAST_BUFFER_DAYS);
+    return { start: start, end: addDays(start, MAX_RANGE_DAYS) };
   }
 
   function fetchAndStore(range) {
@@ -137,20 +135,13 @@
       });
   }
 
-  // Category names carry a per-location suffix, e.g. "Tournaments (West
-  // Location)" vs "Tournaments (East)" - strip it so both locations group
-  // under one filter checkbox.
-  function baseCategoryName(name) {
-    return (name || 'Other').replace(/\s*\([^)]*\)\s*$/, '').trim() || 'Other';
-  }
-
   function normalizeEvent(ev, loc) {
     return {
       id: loc + '-' + ev.EventId,
       title: ev.EventName || 'Event',
       start: ev.StartDateTime ? new Date(ev.StartDateTime) : null,
       end: ev.EndDateTime ? new Date(ev.EndDateTime) : null,
-      categoryName: baseCategoryName(ev.EventCategoryName),
+      categoryName: ev.EventCategoryName || 'Other',
       location: loc,
       url: ev.PublicEventUrl || ev.SsoUrl || '#',
       isCanceled: !!ev.IsCanceled
