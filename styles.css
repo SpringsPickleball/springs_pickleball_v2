@@ -1482,10 +1482,13 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 }
 .event-card .event-photo img { width: 100%; height: 100%; object-fit: cover; }
 .event-card .event-photo.event-graphic {
-  background: #eef3e8;
+  background: var(--white);
 }
 .event-card .event-photo.event-graphic img {
   object-fit: contain;
+}
+.event-card .event-photo.event-graphic img.event-graphic-wide {
+  transform: scaleX(1.08);
 }
 .event-card .event-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
 .event-card .date { color: var(--accent); font-family: var(--font-head); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; }
