@@ -368,6 +368,11 @@
     item.target = '_blank';
     item.rel = 'noopener';
 
+    var loc = document.createElement('span');
+    loc.className = 'cal-event-loc';
+    loc.textContent = e.location;
+    item.appendChild(loc);
+
     var time = document.createElement('span');
     time.className = 'cal-event-time';
     time.textContent = formatTime(e.start) + (e.end ? '–' + formatTime(e.end) : '');
@@ -381,13 +386,8 @@
     if (detailed) {
       var meta = document.createElement('span');
       meta.className = 'cal-event-meta';
-      meta.textContent = e.location + ' · ' + e.categoryName;
+      meta.textContent = e.categoryName;
       item.appendChild(meta);
-    } else {
-      var badge = document.createElement('span');
-      badge.className = 'cal-event-badge';
-      badge.textContent = e.location.charAt(0);
-      item.appendChild(badge);
     }
     return item;
   }
