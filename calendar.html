@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pickleball Instructors in Colorado Springs | Springs Pickleball</title>
-<meta name="description" content="Meet the Springs Pickleball instructors for private lessons, clinics, youth programs, and skill development at our West and East Colorado Springs clubs.">
-<link rel="canonical" href="https://springspickleball.com/instructors.html">
+<title>Event Calendar | Springs Pickleball</title>
+<meta name="description" content="One combined calendar of every Springs Pickleball event at our East and West Colorado Springs locations. Browse by day, week, or month, and filter by Social or Tournament.">
+<link rel="canonical" href="https://springspickleball.com/calendar.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Springs Pickleball">
-<meta property="og:title" content="Pickleball Instructors in Colorado Springs | Springs Pickleball">
-<meta property="og:description" content="Private lessons, group clinics, youth programs, and player development with Springs Pickleball instructors at West and East.">
-<meta property="og:url" content="https://springspickleball.com/instructors.html">
-<meta property="og:image" content="https://springspickleball.com/images/instructor-miles-hoover.jpeg">
+<meta property="og:title" content="Event Calendar | Springs Pickleball">
+<meta property="og:description" content="One combined calendar of every Springs Pickleball event at our East and West Colorado Springs locations.">
+<meta property="og:url" content="https://springspickleball.com/calendar.html">
+<meta property="og:image" content="https://springspickleball.com/images/tournament-podium1.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Pickleball Instructors in Colorado Springs | Springs Pickleball">
-<meta name="twitter:description" content="Meet Springs Pickleball instructors for lessons and clinics at West and East Colorado Springs.">
-<meta name="twitter:image" content="https://springspickleball.com/images/instructor-miles-hoover.jpeg">
+<meta name="twitter:title" content="Event Calendar | Springs Pickleball">
+<meta name="twitter:description" content="One combined calendar of every Springs Pickleball event at our East and West Colorado Springs locations.">
+<meta name="twitter:image" content="https://springspickleball.com/images/tournament-podium1.jpg">
 <link rel="icon" href="./images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,7 +65,6 @@
             <h5>West Colorado Springs</h5>
             <ul>
               <li><a href="https://app.courtreserve.com/online/publicbookings/8778?tab=explore" target="_blank" rel="noopener">All West Events</a></li>
-              <li><a href="https://app.courtreserve.com/Online/Events/List/8778/GBT6FTIB7O8778" target="_blank" rel="noopener">Open Play</a></li>
               <li><a href="https://app.courtreserve.com/Online/Events/List/8778/YJTXG2EIEE8778" target="_blank" rel="noopener">Clinics &amp; Lessons</a></li>
               <li><a href="https://springspickleballtournaments.com" target="_blank" rel="noopener">Tournaments</a></li>
               <li><a href="https://app.courtreserve.com/Online/Events/List/8778/IEK4J2VCGD8778" target="_blank" rel="noopener">Free Intro to Pickleball</a></li>
@@ -77,7 +76,6 @@
             <h5>East Colorado Springs</h5>
             <ul>
               <li><a href="https://app.courtreserve.com/online/publicbookings/15687?tab=explore" target="_blank" rel="noopener">All East Events</a></li>
-              <li><a href="https://app.courtreserve.com/Online/Events/List/15687/GBT6FTIB7O8778" target="_blank" rel="noopener">Open Play</a></li>
               <li><a href="https://app.courtreserve.com/Online/Events/List/15687/QMVL8Z1WB18778" target="_blank" rel="noopener">Clinics &amp; Lessons</a></li>
               <li><a href="https://springspickleballtournaments.com" target="_blank" rel="noopener">Tournaments</a></li>
               <li><a href="https://app.courtreserve.com/Online/Events/List/15687/IEK4J2VCGD8778" target="_blank" rel="noopener">Free Intro to Pickleball</a></li>
@@ -113,152 +111,54 @@
   </div>
 </header>
 
-<section class="page-head instructors-head">
+<section class="page-head">
   <div class="container">
-    <span class="eyebrow">Clinics &amp; Lessons</span>
-    <h1>Meet Our Instructors</h1>
-    <p>Private lessons are $60/hr for up to two people with court time included. Clinics and programs are available for every level, from first-time players to advanced competitors.</p>
-    <div class="hero-ctas">
-      <a href="https://app.courtreserve.com/Online/Events/List/8778/YJTXG2EIEE8778" class="btn" target="_blank" rel="noopener">West Clinics</a>
-      <a href="https://app.courtreserve.com/Online/Events/List/15687/QMVL8Z1WB18778" class="btn btn-dark" target="_blank" rel="noopener">East Clinics</a>
-    </div>
+    <span class="eyebrow">What's On</span>
+    <h1>Event Calendar</h1>
+    <p>One combined calendar for Springs Pickleball West and East. Switch between Day, Week, and Month views, and filter by event type.</p>
   </div>
 </section>
 
 <section class="block">
   <div class="container">
-    <div class="instructor-intro reveal">
-      <div>
-        <span class="eyebrow">Player Development</span>
-        <h2>Lessons Built Around Your Game</h2>
+    <div class="calendar-toolbar">
+      <div class="calendar-nav">
+        <button type="button" id="cal-prev" class="btn cal-icon-btn" aria-label="Previous">‹</button>
+        <button type="button" id="cal-today" class="btn-dark">Today</button>
+        <button type="button" id="cal-next" class="btn cal-icon-btn" aria-label="Next">›</button>
+        <h2 id="cal-range-label" class="cal-range-label"></h2>
       </div>
-      <p>Work on fundamentals, strategy, shot selection, movement, match play, or tournament preparation. Many lessons include video so you can review what changed and keep improving after you leave the court.</p>
+      <div class="calendar-view-toggle" role="tablist" aria-label="Calendar view">
+        <button type="button" class="cal-view-btn" data-view="day" role="tab">Day</button>
+        <button type="button" class="cal-view-btn is-active" data-view="week" role="tab" aria-selected="true">Week</button>
+        <button type="button" class="cal-view-btn" data-view="month" role="tab">Month</button>
+      </div>
     </div>
-    <div class="instructor-grid reveal-stagger">
-      <article class="instructor-card">
-        <img src="images/instructor-miles-hoover.jpeg" alt="Miles Hoover" class="portrait-lower-strong" loading="lazy" decoding="async">
-        <div class="instructor-body">
-          <div class="instructor-meta">Head Pro and Top 100 PPA Pro · West</div>
-          <h3>Miles Hoover</h3>
-          <p>With a lifelong background in competitive tennis and more than two years at Springs Pickleball, Miles brings energy, focus, and high-level training to private lessons and group clinics.</p>
-          <p>He competes and trains with top players, then brings that tour-level learning back to the players he coaches.</p>
-          <div class="instructor-actions">
-            <a href="https://app.courtreserve.com/Online/Events/List/8778/NRYQYYXYDA8778" class="btn" target="_blank" rel="noopener">Book West</a>
-            <a href="mailto:Miles@springspickleball.com">Email Miles</a>
-          </div>
-        </div>
-      </article>
 
-      <article class="instructor-card">
-        <img src="images/instructor-ellen-steinlein.jpeg" alt="Ellen Steinlein" class="portrait-lower" loading="lazy" decoding="async">
-        <div class="instructor-body">
-          <div class="instructor-meta">Director of Coaching and Programs · East</div>
-          <h3>Ellen Steinlein</h3>
-          <p>Ellen has 25+ years of competitive racket sport experience across badminton, tennis, and pickleball, with medals in women's and mixed doubles across all three.</p>
-          <p>She focuses on confidence, court smarts, fundamentals, women's drill sessions, and youth programs that keep learning clear and fun.</p>
-          <div class="instructor-actions">
-            <a href="https://app.courtreserve.com/Online/Events/List/15687/6YLKGB3WYS15687" class="btn" target="_blank" rel="noopener">Book East</a>
-            <a href="mailto:ellensteinlein@gmail.com">Email Ellen</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="instructor-card">
-        <img src="images/instructor-graham-redfearn.jpeg" alt="Graham Redfearn" loading="lazy" decoding="async">
-        <div class="instructor-body">
-          <div class="instructor-meta">Instructor at Springs Pickleball · West</div>
-          <h3>Graham Redfearn</h3>
-          <p>Graham grew up in London with a passion for golf and tennis, then became a teaching professional in Jacksonville before discovering pickleball in Colorado Springs.</p>
-          <p>His lessons use strategic, purposeful drills to help players of all levels build better decisions and cleaner execution.</p>
-          <div class="instructor-actions">
-            <a href="https://app.courtreserve.com/Online/Events/List/8778/5NK1BG1AXE8778" class="btn" target="_blank" rel="noopener">Book West</a>
-            <a href="mailto:graham.redfearn@post.com">Email Graham</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="instructor-card">
-        <img src="images/instructor-susie-roberts.jpeg" alt="Susie Roberts" class="portrait-lower-strong" loading="lazy" decoding="async">
-        <div class="instructor-body">
-          <div class="instructor-meta">Instructor at Springs Pickleball · West</div>
-          <h3>Susie Roberts</h3>
-          <p>Susie helps players move beyond intro-level pickleball and refine the details that matter: net transition, shot selection, mechanics, partner communication, resets, dinks, blocks, and drops.</p>
-          <p>She brings six years of playing experience and a welcoming, community-first coaching style.</p>
-          <div class="instructor-actions">
-            <a href="https://app.courtreserve.com/Online/Events/List/8778/IZLS16LVL18778" class="btn" target="_blank" rel="noopener">Book West</a>
-            <a href="mailto:Promisefulfilled@gmail.com">Email Susie</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="instructor-card">
-        <img src="images/instructor-mick-tingstrom.jpeg" alt="Mick Tingstrom" class="portrait-lower" loading="lazy" decoding="async">
-        <div class="instructor-body">
-          <div class="instructor-meta">PPR Certified Coach · East</div>
-          <h3>Mick Tingstrom</h3>
-          <p>Mick is a professional-level PPR Certified Pickleball Coach with over 20 years of coaching experience across baseball, softball, football, soccer, and pickleball.</p>
-          <p>He works with beginners, wheelchair athletes, Veterans, and advanced tournament players targeting the 4.0-4.5 level.</p>
-          <div class="instructor-actions">
-            <a href="https://app.courtreserve.com/Online/Events/List/15687/4W4TAGTHG78778" class="btn" target="_blank" rel="noopener">Book East</a>
-            <a href="mailto:micktingstrom@gmail.com">Email Mick</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="instructor-card">
-        <img src="images/instructor-joe-frasca.jpg" alt="Joe Frasca" loading="lazy" decoding="async">
-        <div class="instructor-body">
-          <div class="instructor-meta">Senior Pro / NeuroPickleball · East</div>
-          <h3>Joe Frasca</h3>
-          <p>Joe is a Colorado Springs native, former public school teacher, and high school tennis coach with 50+ gold medals at the 5.0, Senior Pro, and Masters Pro levels.</p>
-          <p>As Co-Founder of NeuroPickleball, he blends brain science with on-court training for private, semi-private, and NeuroPickleball lessons.</p>
-          <div class="instructor-actions">
-            <a href="https://app.courtreserve.com/Online/Events/List/15687/JTWHC84SWQ15687" class="btn" target="_blank" rel="noopener">Book East</a>
-            <a href="mailto:east@springspickleball.com">Ask East</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="instructor-card">
-        <img src="images/instructor-samantha-morgan.jpeg" alt="Samantha Morgan" loading="lazy" decoding="async">
-        <div class="instructor-body">
-          <div class="instructor-meta">Instructor at Springs Pickleball · East</div>
-          <h3>Samantha Morgan</h3>
-          <p>Sam has 15+ years of racquet sport experience in tennis and pickleball, competes at the 4.5+ level, and earned 1st place in PPA Nationals 4.5 Women's Singles.</p>
-          <p>She translates complex skills into clear fundamentals and practical strategies for confident match play.</p>
-          <div class="instructor-actions">
-            <a href="https://app.courtreserve.com/Online/Events/List/15687/AHHMD1TGPI15687" class="btn" target="_blank" rel="noopener">Book East</a>
-            <a href="mailto:east@springspickleball.com">Ask East</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="instructor-card">
-        <img src="images/instructor-jillian-niemann.jpeg" alt="Jillian Niemann" class="portrait-lower-strong" loading="lazy" decoding="async">
-        <div class="instructor-body">
-          <div class="instructor-meta">Instructor at Springs Pickleball</div>
-          <h3>Jillian Niemann</h3>
-          <p>Jillian is a competitive pickleball player and coach with 17+ years of racquet sports experience, including Division II tennis at Saint Leo University.</p>
-          <p>She currently holds a 4.5 DUPR rating and helps players build strong fundamentals, strategy, confidence, and a deeper understanding of the game.</p>
-          <div class="instructor-actions">
-            <a href="contact.html" class="btn">Ask About Jillian</a>
-          </div>
-        </div>
-      </article>
-
+    <div class="calendar-filters" id="cal-filters">
+      <span class="cal-filter-label">Filter:</span>
+      <!-- category checkboxes injected by calendar.js -->
     </div>
+
+    <div class="calendar-legend">
+      <span class="cal-legend-item"><span class="cal-dot cal-dot-west"></span>West</span>
+      <span class="cal-legend-item"><span class="cal-dot cal-dot-east"></span>East</span>
+    </div>
+
+    <div id="cal-status" class="cal-status" hidden></div>
+    <div id="cal-root" class="cal-root" aria-live="polite"></div>
   </div>
 </section>
 
-<section class="block alt instructor-cta" id="lesson-inquiry-form">
+<section class="cta-band">
   <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow">Find Your Fit</span>
-      <h2>Tell Us About YOU!</h2>
-      <p>We want to learn about you and your pickleball goals. Fill out this quick form and we&rsquo;ll match you with the coach, clinic, or training approach that fits you best. Once we review your responses, our team will reach out to help you get started.</p>
-    </div>
-    <div class="contact-form-embed reveal">
-      <iframe loading="lazy" title="Coaching and lesson inquiry form" src="https://translucent-punishment-2cb.notion.site/ebd//27637c41290980bbbcf7dcfd39ab954b" width="100%" height="600" frameborder="0" allowfullscreen=""></iframe>
+    <div class="cta-band-inner reveal">
+      <div>
+        <span class="eyebrow">Don't See It Here Yet?</span>
+        <h2>Browse The Full Event Schedule</h2>
+        <p>The calendar shows Social and Tournament events by default. For open play, clinics, and the complete schedule by location, visit the Event Schedule page.</p>
+      </div>
+      <a href="events.html" class="btn btn-accent">Event Schedule</a>
     </div>
   </div>
 </section>
@@ -322,6 +222,7 @@
 </div>
 
 <script src="main.js"></script>
+<script src="calendar.js"></script>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
