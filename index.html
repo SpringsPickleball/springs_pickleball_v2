@@ -161,7 +161,6 @@
           <li><a href="contact.html">Contact Us</a></li>
         </ul>
       </li>
-      <li><a href="calendar.html">Calendar</a></li>
       <li><a href="events-parties.html">Events &amp; Parties</a></li>
       <li><a href="/become-a-sponsor/">Partner With Us</a></li>
       <li><a href="memberships.html">Memberships</a></li>
@@ -462,6 +461,43 @@
   </div>
 </section>
 
+<section class="block alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">What's On</span>
+      <h2>Event Calendar</h2>
+      <p>One combined calendar for Springs Pickleball West and East. Switch between Day, Week, and Month views.</p>
+    </div>
+
+    <div class="calendar-toolbar">
+      <div class="calendar-nav">
+        <button type="button" id="cal-prev" class="btn cal-icon-btn" aria-label="Previous">‹</button>
+        <button type="button" id="cal-today" class="cal-today-btn">Today</button>
+        <button type="button" id="cal-next" class="btn cal-icon-btn" aria-label="Next">›</button>
+        <h3 id="cal-range-label" class="cal-range-label"></h3>
+      </div>
+      <div class="calendar-view-toggle" role="tablist" aria-label="Calendar view">
+        <button type="button" class="cal-view-btn" data-view="day" role="tab">Day</button>
+        <button type="button" class="cal-view-btn is-active" data-view="week" role="tab" aria-selected="true">Week</button>
+        <button type="button" class="cal-view-btn" data-view="month" role="tab">Month</button>
+      </div>
+    </div>
+
+    <div class="calendar-filters" id="cal-filters">
+      <span class="cal-filter-label">Filter:</span>
+      <!-- category checkboxes injected by calendar.js -->
+    </div>
+
+    <div class="calendar-legend">
+      <span class="cal-legend-item"><span class="cal-dot cal-dot-west"></span>West</span>
+      <span class="cal-legend-item"><span class="cal-dot cal-dot-east"></span>East</span>
+    </div>
+
+    <div id="cal-status" class="cal-status" hidden></div>
+    <div id="cal-root" class="cal-root" aria-live="polite"></div>
+  </div>
+</section>
+
 <section class="app-section">
   <div class="container">
     <div class="app-panel reveal">
@@ -541,7 +577,6 @@
         <h4>Explore</h4>
         <ul>
           <li><a href="events.html">Event Schedule</a></li>
-          <li><a href="calendar.html">Calendar</a></li>
           <li><a href="book.html">Book a Court</a></li>
           <li><a href="instructors.html">Book a Lesson</a></li>
           <li><a href="events-parties.html">Events &amp; Parties</a></li>
@@ -584,6 +619,7 @@
 </div>
 
 <script src="main.js"></script>
+<script src="calendar.js"></script>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

@@ -60,7 +60,7 @@ export default {
       else failed.push(locations[i].name);
     });
 
-    return json({ events, failed }, 200, headers, 'public, max-age=120');
+    return json({ events, failed }, 200, headers, 'public, max-age=3600');
   }
 };
 

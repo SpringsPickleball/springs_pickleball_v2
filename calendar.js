@@ -10,7 +10,7 @@
 
   var DEFAULT_CATEGORY_KEYWORDS = ['social', 'tournament'];
   var CACHE_KEY = 'sp_calendar_events_v1';
-  var CACHE_TTL_MS = 5 * 60 * 1000;
+  var CACHE_TTL_MS = 60 * 60 * 1000;
   // CourtReserve's eventlist endpoint errors out above a 120-day window
   // (it returns IsSuccessStatusCode: true with no Data, no useful error
   // status - see cf-worker), so every fetch must stay under that.
@@ -189,13 +189,18 @@
 
   function buildCategoryFilters() {
     var found = Array.from(new Set(state.events.map(function (e) { return e.categoryName; }))).sort();
-    var categories = found.length ? found : ['Social', 'Tournament'];
+    var available = found.length ? found : ['Social Events', 'Tournaments'];
+    // Only Social Events and Tournaments are offered as filters for now; the
+    // other CourtReserve categories (Open Play, Clinics, Lessons, etc.) are
+    // hidden entirely rather than just left unchecked.
+    var categories = available.filter(isDefaultCategory);
 
     if (state.activeCategories === null) {
-      state.activeCategories = new Set(categories.filter(isDefaultCategory));
-      if (!state.activeCategories.size) {
-        state.activeCategories = new Set(categories);
-      }
+      state.activeCategories = new Set(categories);
+    } else {
+      state.activeCategories = new Set(Array.from(state.activeCategories).filter(function (c) {
+        return categories.indexOf(c) !== -1;
+      }));
     }
     state.categories = categories;
 
@@ -254,7 +259,7 @@
     var list = document.createElement('div');
     list.className = 'cal-day-list';
     if (!events.length) {
-      list.appendChild(emptyMessage('No matching events on this day.'));
+      list.appendChild(emptyMessage('No Matching Events Today'));
     } else {
       events.forEach(function (e) { list.appendChild(eventListItem(e, true)); });
     }
@@ -273,17 +278,19 @@
     var grid = document.createElement('div');
     grid.className = 'cal-week-grid';
     days.forEach(function (day) {
+      var dayEvents = events.filter(function (e) { return sameDay(e.start, day); })
+        .sort(function (a, b) { return a.start - b.start; });
+
       var col = document.createElement('div');
-      col.className = 'cal-week-col' + (sameDay(day, new Date()) ? ' is-today' : '');
+      col.className = 'cal-week-col' + (sameDay(day, new Date()) ? ' is-today' : '') +
+        (dayEvents.length ? ' has-events' : ' is-empty');
       var head = document.createElement('div');
       head.className = 'cal-week-col-head';
       head.textContent = formatDate(day, { weekday: 'short', day: 'numeric' });
       col.appendChild(head);
 
-      var dayEvents = events.filter(function (e) { return sameDay(e.start, day); })
-        .sort(function (a, b) { return a.start - b.start; });
       if (!dayEvents.length) {
-        col.appendChild(emptyMessage('—'));
+        col.appendChild(emptyMessage('No Matching Events Today'));
       } else {
         dayEvents.forEach(function (e) { col.appendChild(eventListItem(e, false)); });
       }
