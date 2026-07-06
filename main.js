@@ -37,6 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Hide time-limited promos (e.g. the Summer Special) after their end date.
+  document.querySelectorAll('[data-hide-after]').forEach(el => {
+    const hideAfter = el.getAttribute('data-hide-after');
+    if (/^\d{4}-\d{2}-\d{2}$/.test(hideAfter) && todayKey > hideAfter) {
+      el.hidden = true;
+    }
+  });
+
   // Dropdown / megamenu open-close
   const isDesktop = () => window.matchMedia('(min-width: 981px)').matches;
   const dropdowns = document.querySelectorAll('.nav-links > li.has-dropdown');
@@ -100,6 +108,196 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Booking preference: remembers West/East + Guest/Member for 30 days.
+  const PREF_KEY = 'sp_booking_pref';
+  const PREF_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
+
+  function getBookingPref() {
+    try {
+      const raw = localStorage.getItem(PREF_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      const validLocation = data && (data.location === 'west' || data.location === 'east');
+      const validAccess = data && (data.access === 'guest' || data.access === 'member');
+      if (!validLocation || !validAccess || typeof data.savedAt !== 'number') {
+        localStorage.removeItem(PREF_KEY);
+        return null;
+      }
+      if (Date.now() - data.savedAt > PREF_MAX_AGE_MS) {
+        localStorage.removeItem(PREF_KEY);
+        return null;
+      }
+      return data;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function setBookingPref(location, access) {
+    try {
+      localStorage.setItem(PREF_KEY, JSON.stringify({ location, access, savedAt: Date.now() }));
+    } catch (err) {
+      // localStorage unavailable (private mode, disabled) - degrade silently
+    }
+  }
+
+  const prefWidget = document.getElementById('prefWidget');
+  function renderPrefWidget() {
+    if (!prefWidget) return;
+    const pref = getBookingPref();
+    if (!pref) {
+      prefWidget.hidden = true;
+      return;
+    }
+    prefWidget.hidden = false;
+    const labels = { location: { west: 'West', east: 'East' }, access: { guest: 'Guest', member: 'Member' } };
+    prefWidget.querySelectorAll('.pref-chip').forEach(chip => {
+      const key = chip.dataset.pref;
+      const value = pref[key];
+      chip.textContent = '';
+      chip.append(labels[key][value]);
+      const icon = document.createElement('span');
+      icon.className = 'pref-chip-icon';
+      icon.textContent = '⇄';
+      chip.append(icon);
+      chip.setAttribute('aria-label', `Booking ${key === 'location' ? 'location' : 'as'}: ${labels[key][value]}. Tap to switch.`);
+    });
+  }
+
+  if (prefWidget) {
+    prefWidget.querySelectorAll('.pref-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const pref = getBookingPref();
+        if (!pref) return;
+        const key = chip.dataset.pref;
+        if (key === 'location') {
+          pref.location = pref.location === 'east' ? 'west' : 'east';
+        } else {
+          pref.access = pref.access === 'member' ? 'guest' : 'member';
+        }
+        setBookingPref(pref.location, pref.access);
+        renderPrefWidget();
+        track('book_pref_widget_toggled', { toggle: key, location: pref.location, access: pref.access });
+      });
+    });
+    renderPrefWidget();
+  }
+
+  // Book Court modal
+  const bookModalOverlay = document.getElementById('bookModalOverlay');
+  if (bookModalOverlay) {
+    const closeBtn = bookModalOverlay.querySelector('.book-modal-close');
+    const goLink = document.getElementById('bookModalGo');
+    const BOOK_URLS = {
+      west: {
+        guest: 'https://app.courtreserve.com/online/publicbookings/8778',
+        member: 'https://app.courtreserve.com/Online/Public/EmbedCode/8778/24144',
+      },
+      east: {
+        guest: 'https://app.courtreserve.com/online/publicbookings/15687',
+        member: 'https://widgets.courtreserve.com/Online/Public/EmbedCode/15687/45222',
+      },
+    };
+    let lastFocusedEl = null;
+
+    // The DOM's .active toggle buttons are the single source of truth for the
+    // modal's current selection - no separate state object to keep in sync.
+    function getModalSelection(group) {
+      const activeBtn = bookModalOverlay.querySelector(`[data-book-toggle="${group}"].active`);
+      return activeBtn ? activeBtn.dataset.value : (group === 'location' ? 'west' : 'guest');
+    }
+
+    function setModalSelection(location, access) {
+      bookModalOverlay.querySelectorAll('[data-book-toggle]').forEach(b => {
+        const want = b.dataset.bookToggle === 'location' ? location : access;
+        b.classList.toggle('active', b.dataset.value === want);
+      });
+    }
+
+    function updateBookModalGo() {
+      goLink.href = BOOK_URLS[getModalSelection('location')][getModalSelection('access')];
+    }
+
+    function getFocusableModalEls() {
+      return Array.from(bookModalOverlay.querySelectorAll('button, a[href]'));
+    }
+
+    function openBookModal() {
+      const pref = getBookingPref();
+      setModalSelection(pref ? pref.location : 'west', pref ? pref.access : 'guest');
+      updateBookModalGo();
+      lastFocusedEl = document.activeElement;
+      bookModalOverlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      if (links) links.classList.remove('open');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      closeDropdowns();
+      const focusable = getFocusableModalEls();
+      if (focusable.length) focusable[0].focus();
+      track('book_modal_opened', {});
+    }
+
+    function closeBookModal() {
+      bookModalOverlay.hidden = true;
+      document.body.style.overflow = '';
+      if (lastFocusedEl && typeof lastFocusedEl.focus === 'function') lastFocusedEl.focus();
+      lastFocusedEl = null;
+    }
+
+    document.querySelectorAll('[data-open-book-modal]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        openBookModal();
+      });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeBookModal);
+
+    bookModalOverlay.addEventListener('click', e => {
+      if (e.target === bookModalOverlay) closeBookModal();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (bookModalOverlay.hidden) return;
+      if (e.key === 'Escape') {
+        closeBookModal();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const focusable = getFocusableModalEls();
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    bookModalOverlay.querySelectorAll('[data-book-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const group = btn.dataset.bookToggle;
+        const value = btn.dataset.value;
+        bookModalOverlay.querySelectorAll(`[data-book-toggle="${group}"]`).forEach(b => {
+          b.classList.toggle('active', b.dataset.value === value);
+        });
+        updateBookModalGo();
+        track('book_modal_toggle_changed', { toggle: group, value });
+      });
+    });
+
+    goLink.addEventListener('click', () => {
+      setBookingPref(getModalSelection('location'), getModalSelection('access'));
+      renderPrefWidget();
+      closeBookModal();
+    });
+
+    updateBookModalGo();
+  }
+
   // Contact form fallback for the static site.
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
@@ -159,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (el.closest('.champion-section')) return 'championship_series';
     if (el.closest('.loc-card')) return 'location_card';
     if (el.closest('.utility-social')) return 'utility_social';
-    if (el.closest('.megamenu') || el.closest('.submenu')) return 'nav';
+    if (el.closest('.megamenu') || el.closest('.submenu') || el.closest('.book-modal-overlay')) return 'nav';
     if (el.closest('.sponsors')) return 'sponsors';
     if (el.closest('.cta-band')) return 'cta_band';
     if (el.closest('.site-footer')) return 'footer';

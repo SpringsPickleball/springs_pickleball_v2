@@ -65,8 +65,11 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .utility-bar a { color: var(--muted); }
 .utility-bar a:hover { color: var(--accent); }
-.utility-info { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.utility-info { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
 .utility-info strong { color: var(--black); font-weight: 700; margin-right: 0.3rem; }
+.utility-apps { display: inline-flex; align-items: center; gap: 0.5rem; }
+.utility-apps .app-badge img { height: 20px; width: auto; display: block; }
+.utility-apps .app-badge.google img { height: 30px; margin: -5px 0; }
 .utility-social { display: flex; gap: 0.7rem; align-items: center; }
 .utility-social a {
   display: inline-flex;
@@ -102,12 +105,38 @@ img { max-width: 100%; height: auto; display: block; }
   margin: 0 auto;
   gap: 1.5rem;
 }
-.nav > a.logo { display: inline-flex; align-items: center; gap: 0.6rem; }
+.nav-left { display: flex; align-items: center; gap: 0.85rem; min-width: 0; }
+.nav-left > a.logo { display: inline-flex; align-items: center; gap: 0.6rem; }
 .nav a { color: var(--black); }
 .logo img {
   height: 88px;
   width: auto;
   display: block;
+}
+.pref-widget { display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0; }
+.pref-widget[hidden] { display: none; }
+.pref-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--gray);
+  border: 1px dashed #b9c4bb;
+  border-radius: 999px;
+  padding: 0.3rem 0.65rem;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--black);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.pref-chip:hover { background: var(--main); border-color: var(--main-dark); }
+.pref-chip .pref-chip-icon { font-size: 0.7rem; color: var(--muted); }
+.pref-chip:hover .pref-chip-icon { color: var(--black); }
+@media (max-width: 640px) {
+  .pref-chip { font-size: 0.6rem; padding: 0.25rem 0.5rem; }
 }
 @media (max-width: 640px) {
   .logo img { height: 64px; }
@@ -168,6 +197,18 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--white) !important;
   box-shadow: 0 10px 22px rgba(7,56,109,0.28);
   transform: translateY(-1px);
+}
+.nav-links > li > a.nav-book-btn {
+  border: 2px solid var(--accent);
+  color: var(--accent) !important;
+  padding: 0.6rem 1.05rem !important;
+  border-radius: 999px;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-links > li > a.nav-book-btn:hover,
+.nav-links > li > a.nav-book-btn.active {
+  background: var(--accent);
+  color: var(--white) !important;
 }
 
 /* Dropdown (simple) */
@@ -285,6 +326,76 @@ img { max-width: 100%; height: auto; display: block; }
   .megamenu { padding: 1rem 1.25rem; }
   .megamenu h5 { padding-left: 0.25rem; }
   .nav-cta { margin: 0.75rem 1.25rem; text-align: center; }
+  .nav-book-btn { margin: 0 1.25rem 0.75rem; text-align: center; }
+}
+
+/* ===== Book Court modal ===== */
+.book-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16,24,26,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 300;
+}
+.book-modal-overlay[hidden] { display: none; }
+.book-modal {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 2rem 1.75rem 1.75rem;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+.book-modal h3 {
+  font-family: var(--font-head);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 1.25rem;
+}
+.book-modal-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.75rem;
+  background: none;
+  border: 0;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.25rem;
+}
+.book-modal-close:hover { color: var(--black); }
+.book-modal-toggle {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+.book-modal-toggle button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+  min-width: 100px;
+}
+.book-modal-toggle .toggle-sub {
+  font-family: var(--font-body);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+.book-modal-toggle button.active .toggle-sub { color: var(--black); }
+.book-modal-go {
+  display: block;
+  width: 100%;
+  margin-top: 1.5rem;
+  text-align: center;
 }
 
 /* ===== Buttons ===== */

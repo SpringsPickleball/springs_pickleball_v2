@@ -98,6 +98,14 @@
       <span><strong>West:</strong> <a href="tel:17193575454">(719) 357-5454</a></span>
       <span><strong>East:</strong> <a href="tel:17193575199">(719) 357-5199</a></span>
       <span><strong>Hours:</strong> Sun–Sat 8AM – 9PM</span>
+      <span class="utility-apps">
+        <a href="https://apps.apple.com/us/app/springs-pickleball/id6746125979" target="_blank" rel="noopener" class="app-badge apple" aria-label="Download on the App Store">
+          <img src="/images/app-store-badge.svg" alt="Download on the App Store" loading="lazy" decoding="async">
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.courtreserve.springpickvondelpark" target="_blank" rel="noopener" class="app-badge google" aria-label="Get it on Google Play">
+          <img src="/images/google-play-badge.png" alt="Get it on Google Play" loading="lazy" decoding="async">
+        </a>
+      </span>
     </div>
     <div class="utility-social">
       <a href="https://www.facebook.com/profile.php?id=100082905789301" target="_blank" rel="noopener" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.08 5.66 21.24 10.44 22v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.57v1.89h2.77l-.44 2.91h-2.33V22C18.34 21.24 22 17.08 22 12.06z"/></svg></a>
@@ -110,9 +118,15 @@
 
 <header class="site-header">
   <div class="nav">
-    <a href="/" class="logo" aria-label="Springs Pickleball home">
-      <img src="/images/logo.png" alt="Springs Pickleball">
-    </a>
+    <div class="nav-left">
+      <a href="/" class="logo" aria-label="Springs Pickleball home">
+        <img src="/images/logo.png" alt="Springs Pickleball">
+      </a>
+      <div class="pref-widget" id="prefWidget" hidden>
+        <button type="button" class="pref-chip" data-pref="location">West</button>
+        <button type="button" class="pref-chip" data-pref="access">Guest</button>
+      </div>
+    </div>
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
@@ -146,30 +160,33 @@
           </div>
         </div>
       </li>
-      <li class="has-dropdown">
-        <a href="/book.html">Book <span class="chev"></span></a>
-        <ul class="submenu">
-          <li><a href="https://app.courtreserve.com/online/publicbookings/8778" target="_blank" rel="noopener">Book West Court</a></li>
-          <li><a href="https://app.courtreserve.com/online/publicbookings/8778?tab=explore" target="_blank" rel="noopener">West Events</a></li>
-          <li><a href="https://app.courtreserve.com/online/publicbookings/15687" target="_blank" rel="noopener">Book East Court</a></li>
-          <li><a href="https://app.courtreserve.com/online/publicbookings/15687?tab=explore" target="_blank" rel="noopener">East Events</a></li>
-          <li><a href="https://app.courtreserve.com/Online/Public/EmbedCode/8778/24144" target="_blank" rel="noopener">West Court Schedule</a></li>
-          <li><a href="https://widgets.courtreserve.com/Online/Public/EmbedCode/15687/45222" target="_blank" rel="noopener">East Court Schedule</a></li>
-          <li><a href="/instructors.html">Book A Lesson</a></li>
-          <li><a href="/events-parties.html">Events &amp; Parties</a></li>
-          <li><a href="https://shop.springspickleball.com" target="_blank" rel="noopener">Gift Cards</a></li>
-          <li><a href="/contact.html">Contact Us</a></li>
-        </ul>
-      </li>
+      <li><a href="/book.html" class="nav-book-btn" data-open-book-modal>Book Court</a></li>
       <li><a href="/events-parties.html">Events &amp; Parties</a></li>
       <li><a href="/become-a-sponsor/">Partner With Us</a></li>
       <li><a href="/memberships.html">Memberships</a></li>
       <li><a href="/faq.html">FAQ</a></li>
-      <li><a href="/book.html" class="nav-cta">Book Now</a></li>
+      <li><a href="/book.html" class="nav-cta" data-open-book-modal>Book Now</a></li>
     </ul>
   </div>
 </header>
+<div class="book-modal-overlay" id="bookModalOverlay" hidden>
+  <div class="book-modal" role="dialog" aria-modal="true" aria-labelledby="bookModalTitle">
+    <button type="button" class="book-modal-close" aria-label="Close">&times;</button>
+    <h3 id="bookModalTitle">Book a Court</h3>
 
+    <div class="toggle-group book-modal-toggle" role="group" aria-label="Choose location">
+      <button type="button" data-book-toggle="location" data-value="west" class="active">West</button>
+      <button type="button" data-book-toggle="location" data-value="east">East</button>
+    </div>
+
+    <div class="toggle-group book-modal-toggle" role="group" aria-label="Choose account status">
+      <button type="button" data-book-toggle="access" data-value="guest" class="active">Guest<span class="toggle-sub">no account</span></button>
+      <button type="button" data-book-toggle="access" data-value="member">Member<span class="toggle-sub">any account</span></button>
+    </div>
+
+    <a href="https://app.courtreserve.com/online/publicbookings/8778" id="bookModalGo" class="btn book-modal-go" target="_blank" rel="noopener">Continue to Booking</a>
+  </div>
+</div>
 
 <main class="sponsor-page">
   <section id="hero" class="sponsor-hero">
