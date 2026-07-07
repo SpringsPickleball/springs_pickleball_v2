@@ -79,7 +79,13 @@
       "Bash(python3 /private/tmp/claude-501/-Users-jordan-springs-pickleball-v2/3d1564b4-e438-4457-a8f2-f4a3751f8347/scratchpad/patch_anchors.py)",
       "Bash(node test_fixes.js)",
       "Bash(pkill -f \"http.server 8936\")",
-      "Bash(pkill -f \"http.server 8938\")"
+      "Bash(pkill -f \"http.server 8938\")",
+      "Bash(gh --version)",
+      "Bash(gh api *)",
+      "Bash(git commit --allow-empty -m ' *)",
+      "Bash(git push *)",
+      "Bash(git remote *)",
+      "Bash(git fetch *)"
     ],
     "additionalDirectories": [
       "/tmp"

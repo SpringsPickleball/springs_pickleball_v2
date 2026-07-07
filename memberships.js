@@ -9,6 +9,27 @@ const SIGNUP = {
 };
 
 const PLANS = {
+  guest: {
+    name: 'Guest Membership',
+    variants: {
+      single: {
+        annual: { name: 'Free Guest Membership', amount: 0, label: '/mo', billingText: 'free account; pay as you play' },
+        monthly: { name: 'Free Guest Membership', amount: 0, label: '/mo', billingText: 'free account; pay as you play' },
+      },
+      couples: {
+        annual: { name: 'Free Guest Membership', amount: 0, label: '/mo', billingText: 'each player creates a free guest account' },
+        monthly: { name: 'Free Guest Membership', amount: 0, label: '/mo', billingText: 'each player creates a free guest account' },
+      },
+    },
+    description: 'Create a free account to book courts and open play at guest rates.',
+    perks: [
+      'No monthly membership dues',
+      'Pay standard guest rates for courts and open play',
+      '3-day advance booking access',
+      'Access to both Springs Pickleball locations',
+      'Upgrade to Flex or Unlimited any time',
+    ],
+  },
   flex: {
     name: 'Flex',
     variants: {
@@ -156,7 +177,7 @@ function renderPlans() {
     if (!variant) return;
 
     const el = document.createElement('div');
-    el.className = 'plan' + (plan.featured ? ' featured' : '');
+    el.className = ['plan', `plan-${key}`, plan.featured ? 'featured' : ''].filter(Boolean).join(' ');
     el.innerHTML = `
       <h3>${plan.name}</h3>
       <div class="price">${money(variant.amount)}<small>${variant.label}</small></div>
