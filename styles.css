@@ -1562,7 +1562,7 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 .event-grid-four {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .event-card {
   background: var(--white);
@@ -1784,9 +1784,6 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 }
 
 @media (max-width: 960px) {
-  .event-grid-four {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .package-grid {
     grid-template-columns: 1fr;
   }
