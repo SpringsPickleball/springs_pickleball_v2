@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const href = a.getAttribute('href');
     if (
       href === path ||
+      (path === 'reconnect-marriage-pickleball-retreat.html' && href === 'events.html') ||
       (path === 'index.html' && (href === 'index.html' || href === '/' || href === './'))
     ) {
       a.classList.add('active');

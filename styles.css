@@ -1714,8 +1714,77 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
     url('images/corporate-group.png') center/cover no-repeat;
 }
 
+/* ===== ReConnect retreat page ===== */
+.reconnect-head {
+  background:
+    linear-gradient(90deg, rgba(7,24,38,0.88), rgba(7,24,38,0.48)),
+    url('images/west-overview-people.jpg') center/cover no-repeat;
+}
+.reconnect-head .hero-ctas .btn-outline {
+  color: var(--white);
+  border-color: var(--main);
+}
+.reconnect-head .hero-ctas .btn-outline:hover {
+  color: var(--black);
+}
+.reconnect-intro {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.reconnect-panel {
+  background: var(--white);
+  border: 1px solid #dfe7df;
+  border-top: 5px solid var(--main);
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(16,24,26,0.05);
+  padding: 1.75rem;
+}
+.reconnect-panel h3 {
+  color: var(--accent-dark);
+}
+.reconnect-panel p:last-child {
+  margin-bottom: 0;
+}
+.reconnect-included .card {
+  min-height: 100%;
+}
+.reconnect-schedule {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0 auto;
+  max-width: 920px;
+}
+.reconnect-schedule .event {
+  margin-bottom: 0;
+}
+.reconnect-schedule ul {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+.reconnect-schedule li {
+  border-top: 1px solid #eef2ef;
+  color: var(--muted);
+  padding: 0.75rem 0;
+}
+.reconnect-schedule li:last-child {
+  padding-bottom: 0;
+}
+.reconnect-schedule strong {
+  color: var(--black);
+}
+.reconnect-cta {
+  background:
+    linear-gradient(90deg, rgba(7,24,38,0.88), rgba(7,24,38,0.50)),
+    url('images/west-close-people.jpg') center/cover no-repeat;
+}
+
 @media (max-width: 960px) {
   .package-grid {
+    grid-template-columns: 1fr;
+  }
+  .reconnect-intro {
     grid-template-columns: 1fr;
   }
 }
