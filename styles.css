@@ -1564,12 +1564,6 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 .event-grid-four {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-.event-grid-four .event-photo {
-  aspect-ratio: 16 / 9;
-}
-.event-grid-four .event-photo.event-graphic img {
-  object-fit: cover;
-}
 .event-card {
   background: var(--white);
   border-radius: 8px;
@@ -1595,6 +1589,12 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 }
 .event-card .event-photo.event-graphic img.event-graphic-wide {
   transform: scaleX(1.08);
+}
+.event-grid.event-grid-four .event-card .event-photo {
+  aspect-ratio: 16 / 9;
+}
+.event-grid.event-grid-four .event-card .event-photo.event-graphic img {
+  object-fit: cover;
 }
 .event-card .event-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
 .event-card .date { color: var(--accent); font-family: var(--font-head); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; }
