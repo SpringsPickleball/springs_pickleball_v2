@@ -1561,6 +1561,9 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   gap: 1.75rem;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
+.event-grid-four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
 .event-card {
   background: var(--white);
   border-radius: 8px;
@@ -1781,10 +1784,19 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 }
 
 @media (max-width: 960px) {
+  .event-grid-four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .package-grid {
     grid-template-columns: 1fr;
   }
   .reconnect-intro {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .event-grid-four {
     grid-template-columns: 1fr;
   }
 }
