@@ -1564,6 +1564,12 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 .event-grid-four {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
+.event-grid-four .event-photo {
+  aspect-ratio: 16 / 9;
+}
+.event-grid-four .event-photo.event-graphic img {
+  object-fit: cover;
+}
 .event-card {
   background: var(--white);
   border-radius: 8px;
