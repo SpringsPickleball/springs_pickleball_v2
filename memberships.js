@@ -10,15 +10,15 @@ const SIGNUP = {
 
 const PLANS = {
   guest: {
-    name: 'Guest Membership',
+    name: 'Free Member Account',
     variants: {
       single: {
-        annual: { name: 'Free Guest Membership', amount: 0, label: '/mo', billingText: 'free account; pay as you play' },
-        monthly: { name: 'Free Guest Membership', amount: 0, label: '/mo', billingText: 'free account; pay as you play' },
+        annual: { name: 'Free Member Account', amount: 0, label: '/mo', billingText: 'free account; pay as you play' },
+        monthly: { name: 'Free Member Account', amount: 0, label: '/mo', billingText: 'free account; pay as you play' },
       },
       couples: {
-        annual: { name: 'Free Guest Membership', amount: 0, label: '/mo', billingText: 'each player creates a free guest account' },
-        monthly: { name: 'Free Guest Membership', amount: 0, label: '/mo', billingText: 'each player creates a free guest account' },
+        annual: { name: 'Free Member Account', amount: 0, label: '/mo', billingText: 'each player creates a free member account' },
+        monthly: { name: 'Free Member Account', amount: 0, label: '/mo', billingText: 'each player creates a free member account' },
       },
     },
     description: 'Create a free account to book courts and open play at guest rates.',
