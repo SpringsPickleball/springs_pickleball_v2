@@ -329,6 +329,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Lazy autoplay event videos: keep large promo files off the critical path.
+  document.querySelectorAll('.event-video-card').forEach(card => {
+    const video = card.querySelector('video[data-src]');
+    if (!video) return;
+
+    function ensureVideoLoaded() {
+      if (video.dataset.loaded === 'true') return;
+      video.src = video.dataset.src;
+      video.dataset.loaded = 'true';
+      video.load();
+    }
+
+    async function playVideo() {
+      ensureVideoLoaded();
+      try {
+        await video.play();
+        if (video.dataset.playTracked !== 'true') {
+          video.dataset.playTracked = 'true';
+          track('event_video_played', {
+            source: 'event_card',
+            label: cleanText(video.getAttribute('aria-label')),
+            video_src: video.dataset.src,
+            autoplay: true,
+          });
+        }
+      } catch (err) {
+        // Browser autoplay policy or transient media errors should not block the page.
+      }
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      playVideo();
+      return;
+    }
+
+    const videoIo = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          playVideo();
+        } else if (video.dataset.loaded === 'true') {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.2, rootMargin: '600px 0px' });
+    videoIo.observe(card);
+  });
+
   // PostHog: named events for site interest and booking funnel
   function normalizeAnalyticsPath(path) {
     const value = path || '/';

@@ -1707,6 +1707,12 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   display: flex;
   flex-direction: column;
 }
+.event-card-featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.95fr);
+  align-items: stretch;
+}
 .event-card[hidden] {
   display: none;
 }
@@ -1731,6 +1737,23 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 .event-grid.event-grid-four .event-card .event-photo.event-graphic img {
   object-fit: cover;
 }
+.event-card-featured .event-photo {
+  aspect-ratio: auto;
+  min-height: 360px;
+}
+.event-card-featured .event-body {
+  justify-content: center;
+}
+.event-video-card {
+  position: relative;
+  background: #071826;
+}
+.event-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .event-card .event-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
 .event-card .date { color: var(--accent); font-family: var(--font-head); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; }
 .event-card h3 { margin: 0.35rem 0 0.5rem; }
@@ -1743,6 +1766,27 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   margin-top: 0.2rem;
 }
 .event-details p { margin-bottom: 0.55rem; }
+.event-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  list-style: none;
+  margin: 0.1rem 0 0.9rem;
+  padding: 0;
+}
+.event-highlights li {
+  background: #eef5e5;
+  border: 1px solid #dcebc8;
+  border-radius: 999px;
+  color: var(--black);
+  font-family: var(--font-head);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  padding: 0.35rem 0.65rem;
+  text-transform: uppercase;
+}
 .event-actions {
   display: flex;
   gap: 0.6rem;
@@ -1754,6 +1798,16 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   margin-top: 0;
   font-size: 0.8rem;
   padding: 0.72rem 1rem;
+}
+
+@media (max-width: 900px) {
+  .event-card-featured {
+    grid-template-columns: 1fr;
+  }
+  .event-card-featured .event-photo {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
 }
 
 /* ===== Events & parties packages ===== */
