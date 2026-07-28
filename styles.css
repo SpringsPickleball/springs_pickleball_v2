@@ -11,6 +11,7 @@
   --white: #ffffff;
   --muted: #536164;
   --max: 1240px;
+  --header-max: 1360px;
   --font-body: 'Mulish', system-ui, -apple-system, sans-serif;
   --font-head: 'Kanit', system-ui, -apple-system, sans-serif;
 }
@@ -59,6 +60,7 @@ img { max-width: 100%; height: auto; display: block; }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: var(--header-max);
   padding: 0.55rem 1.25rem;
   gap: 1rem;
   flex-wrap: wrap;
@@ -101,7 +103,7 @@ img { max-width: 100%; height: auto; display: block; }
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1.25rem;
-  max-width: var(--max);
+  max-width: var(--header-max);
   margin: 0 auto;
   gap: 1.5rem;
 }
