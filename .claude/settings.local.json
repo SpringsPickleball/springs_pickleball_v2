@@ -90,7 +90,8 @@
       "Bash(curl -s http://localhost:8123/index.html)",
       "Bash(which chromium *)",
       "Read(//Applications/**)",
-      "Bash(kill %1)"
+      "Bash(kill %1)",
+      "Bash(perl -0pi -e 's{\\(<ul>\\\\s*\\\\n\\\\s*\\)\\(<li><a href=\"/events\\\\.html\">Event Schedule</a></li>\\)}{$1<li><a href=\"https://springspickleballapplication.paperform.co/\" target=\"_blank\" rel=\"noopener\">Jobs</a></li>\\\\n          $2}' become-a-sponsor/index.html)"
     ],
     "additionalDirectories": [
       "/tmp"
