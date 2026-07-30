@@ -40,4 +40,8 @@
     <loc>https://springspickleball.com/contact.html</loc>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://springspickleball.com/jobs.html</loc>
+    <priority>0.6</priority>
+  </url>
 </urlset>
