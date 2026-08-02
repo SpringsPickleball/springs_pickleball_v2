@@ -91,7 +91,18 @@
       "Bash(which chromium *)",
       "Read(//Applications/**)",
       "Bash(kill %1)",
-      "Bash(perl -0pi -e 's{\\(<ul>\\\\s*\\\\n\\\\s*\\)\\(<li><a href=\"/events\\\\.html\">Event Schedule</a></li>\\)}{$1<li><a href=\"https://springspickleballapplication.paperform.co/\" target=\"_blank\" rel=\"noopener\">Jobs</a></li>\\\\n          $2}' become-a-sponsor/index.html)"
+      "Bash(perl -0pi -e 's{\\(<ul>\\\\s*\\\\n\\\\s*\\)\\(<li><a href=\"/events\\\\.html\">Event Schedule</a></li>\\)}{$1<li><a href=\"https://springspickleballapplication.paperform.co/\" target=\"_blank\" rel=\"noopener\">Jobs</a></li>\\\\n          $2}' become-a-sponsor/index.html)",
+      "Bash(command -v node)",
+      "Bash(command -v npx)",
+      "Bash(ln -sf \"$\\(pwd\\)/images\" /tmp/orig_check/images)",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --screenshot=\"/private/tmp/claude-501/-Users-jordan-springs-pickleball-v2/7efd4db6-3415-4a04-8fab-27ea36c6342a/scratchpad/shots/orig_1024.png\" --window-size=1024,300 \"file:///tmp/orig_check/index.html\")",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --screenshot=\"/private/tmp/claude-501/-Users-jordan-springs-pickleball-v2/7efd4db6-3415-4a04-8fab-27ea36c6342a/scratchpad/shots/nav_1160.png\" --window-size=1160,300 \"file://$\\(pwd\\)/index.html\")",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --screenshot=\"/private/tmp/claude-501/-Users-jordan-springs-pickleball-v2/7efd4db6-3415-4a04-8fab-27ea36c6342a/scratchpad/shots/sponsor_1200.png\" --window-size=1200,300 \"file://$\\(pwd\\)/become-a-sponsor/index.html\")",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --screenshot=\"/private/tmp/claude-501/-Users-jordan-springs-pickleball-v2/7efd4db6-3415-4a04-8fab-27ea36c6342a/scratchpad/shots/mobile_390.png\" --window-size=390,844 \"file://$\\(pwd\\)/index.html\")",
+      "Bash(sips -g pixelWidth -g pixelHeight \"/private/tmp/claude-501/-Users-jordan-springs-pickleball-v2/7efd4db6-3415-4a04-8fab-27ea36c6342a/scratchpad/shots/mobile_header_zoom2.png\")",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --screenshot=\"/private/tmp/claude-501/-Users-jordan-springs-pickleball-v2/7efd4db6-3415-4a04-8fab-27ea36c6342a/scratchpad/shots/mobile_full.png\" --window-size=390,500 \"file://$\\(pwd\\)/index.html\")",
+      "Bash(sips -g pixelWidth -g pixelHeight \"/private/tmp/claude-501/-Users-jordan-springs-pickleball-v2/7efd4db6-3415-4a04-8fab-27ea36c6342a/scratchpad/shots/mobile_full.png\")",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --screenshot=\"/private/tmp/claude-501/-Users-jordan-springs-pickleball-v2/7efd4db6-3415-4a04-8fab-27ea36c6342a/scratchpad/shots/orig_mobile_full.png\" --window-size=390,500 \"file:///tmp/orig_check/index.html\")"
     ],
     "additionalDirectories": [
       "/tmp"

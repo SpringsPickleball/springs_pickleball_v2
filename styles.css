@@ -280,7 +280,7 @@ img { max-width: 100%; height: auto; display: block; }
   padding: 0.5rem;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1180px) {
   .nav-toggle { display: block; }
   .nav-links {
     position: absolute;

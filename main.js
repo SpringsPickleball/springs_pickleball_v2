@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Dropdown / megamenu open-close
-  const isDesktop = () => window.matchMedia('(min-width: 981px)').matches;
+  const isDesktop = () => window.matchMedia('(min-width: 1181px)').matches;
   const dropdowns = document.querySelectorAll('.nav-links > li.has-dropdown');
 
   function setDropdownOpen(li, open) {
