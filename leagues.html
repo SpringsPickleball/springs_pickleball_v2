@@ -11,11 +11,11 @@
 <meta property="og:title" content="Pickleball Leagues in Colorado Springs | Springs Pickleball">
 <meta property="og:description" content="Register for fall Flex leagues at Springs Pickleball West and East, or visit PCOL for citywide league play.">
 <meta property="og:url" content="https://springspickleball.com/leagues.html">
-<meta property="og:image" content="https://springspickleball.com/images/fall_flex_leagues-web.jpg">
+<meta property="og:image" content="https://springspickleball.com/images/fall_flex_league.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Pickleball Leagues in Colorado Springs | Springs Pickleball">
 <meta name="twitter:description" content="Fall Flex leagues are open now at Springs Pickleball West and East.">
-<meta name="twitter:image" content="https://springspickleball.com/images/fall_flex_leagues-web.jpg">
+<meta name="twitter:image" content="https://springspickleball.com/images/fall_flex_league.jpg">
 <link rel="icon" href="./images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -162,14 +162,14 @@
     </div>
 
     <div class="league-feature reveal">
-      <img src="images/fall_flex_leagues-web.jpg" alt="Fall Flex Leagues schedule for Springs Pickleball West and East" loading="lazy" decoding="async">
+      <img src="images/fall_flex_league.jpg" alt="Fall Flex Leagues schedule for Springs Pickleball West and East" loading="lazy" decoding="async">
     </div>
 
     <div class="league-stats reveal-stagger" aria-label="Fall Flex league summary">
       <div><strong>10</strong><span>Fall Flex leagues</span></div>
       <div><strong>Oct 19</strong><span>Start week</span></div>
       <div><strong>7</strong><span>Week season</span></div>
-      <div><strong>$0-$90</strong><span>Member-based pricing</span></div>
+      <div><strong>Free-$110</strong><span>Member-based pricing</span></div>
     </div>
 
     <div class="league-picker reveal">
@@ -185,8 +185,8 @@
           <optgroup label="Springs West">
             <option value="https://app.courtreserve.com/Online/Leagues/Details/8778/30519" data-location="Springs West" data-schedule="Monday 5-7 PM" data-division="Women's NR-3.24">Women's NR-3.24 - West - Mon 5-7 PM</option>
             <option value="https://app.courtreserve.com/Online/Leagues/Details/8778/30510" data-location="Springs West" data-schedule="Monday 7-9 PM" data-division="Coed 4.0+">Coed 4.0+ - West - Mon 7-9 PM</option>
-            <option value="https://app.courtreserve.com/Online/Leagues/Details/8778/30518" data-location="Springs West" data-schedule="Thursday 7-9 PM" data-division="Men's 3.75-4.24">Men's 3.75-4.24 - West - Thu 7-9 PM</option>
             <option value="https://app.courtreserve.com/Online/Leagues/Details/8778/30553" data-location="Springs West" data-schedule="Wednesday 7-9 PM" data-division="Women's 3.5-3.99">Women's 3.5-3.99 - West - Wed 7-9 PM</option>
+            <option value="https://app.courtreserve.com/Online/Leagues/Details/8778/30518" data-location="Springs West" data-schedule="Thursday 7-9 PM" data-division="Men's 3.75-4.24">Men's 3.75-4.24 - West - Thu 7-9 PM</option>
             <option value="https://app.courtreserve.com/Online/Leagues/Details/8778/30511" data-location="Springs West" data-schedule="Sunday 6-8 PM" data-division="Men's 3.0-3.74">Men's 3.0-3.74 - West - Sun 6-8 PM</option>
           </optgroup>
           <optgroup label="Springs East">
@@ -201,7 +201,7 @@
       <div class="league-picker-result" id="leaguePickerResult" aria-live="polite">
         <span>Selected league</span>
         <strong>Choose a division above</strong>
-        <small>Non-members $90 · Flex $70 · Unlimited $45 · Unlimited+ free</small>
+        <small>Non-members $110 · Flex $80 · Unlimited $55 · Unlimited+ free</small>
       </div>
       <a href="#" class="btn league-picker-cta disabled" id="leagueRegisterButton" aria-disabled="true">Register Selected League</a>
     </div>
@@ -278,7 +278,7 @@
       const option = select.options[select.selectedIndex];
       const href = option.value;
       if (!href) {
-        result.innerHTML = '<span>Selected league</span><strong>Choose a division above</strong><small>Non-members $90 &middot; Flex $70 &middot; Unlimited $45 &middot; Unlimited+ free</small>';
+        result.innerHTML = '<span>Selected league</span><strong>Choose a division above</strong><small>Non-members $110 &middot; Flex $80 &middot; Unlimited $55 &middot; Unlimited+ free</small>';
         button.href = '#';
         button.classList.add('disabled');
         button.setAttribute('aria-disabled', 'true');

@@ -936,7 +936,7 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 .leagues-head {
   background:
     linear-gradient(90deg, rgba(7,24,38,0.88), rgba(11,84,162,0.6)),
-    url('images/fall_flex_leagues-web.jpg') center/cover no-repeat;
+    url('images/fall_flex_league.jpg') center/cover no-repeat;
 }
 .league-pcol {
   display: grid;
