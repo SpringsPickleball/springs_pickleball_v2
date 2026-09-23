@@ -830,21 +830,7 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 
 /* ===== Annual membership promo ===== */
 .membership-promo {
-  background: #02070c;
-  border-bottom: 3px solid var(--main);
-}
-.membership-promo-link {
-  display: block;
-  max-width: 1740px;
-  margin: 0 auto;
-}
-.membership-promo-link img {
   width: 100%;
-  height: auto;
-}
-.membership-promo-link:focus-visible {
-  outline: 4px solid var(--main);
-  outline-offset: -4px;
 }
 
 /* ===== Leagues ===== */
@@ -2470,6 +2456,35 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   }
   .membership-special-ctas .btn {
     flex: 1 1 120px;
+  }
+}
+.home-membership-notice {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border-top: 0;
+  border-bottom: 4px solid var(--main);
+  border-radius: 0;
+  box-shadow: none;
+}
+.home-membership-notice .membership-price-notice-media {
+  flex: 0 1 560px;
+  max-width: 560px;
+}
+.home-membership-notice .membership-special-copy {
+  align-items: flex-start;
+  padding: 1.5rem clamp(1.5rem, 5vw, 5rem);
+}
+.home-membership-notice .membership-special-ctas {
+  margin-top: 1rem;
+}
+@media (max-width: 720px) {
+  .home-membership-notice .membership-price-notice-media {
+    flex-basis: auto;
+    max-width: none;
+  }
+  .home-membership-notice .membership-special-copy {
+    padding: 1.4rem 1.5rem 1.6rem;
   }
 }
 .toggle-bar {
