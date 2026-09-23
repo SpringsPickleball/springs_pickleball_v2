@@ -828,108 +828,23 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 }
 .promo-ctas .btn:hover { background: var(--black); color: var(--main); }
 
-/* ===== Dual promo banner (Fall Classic + Membership) ===== */
-.promo-duo {
-  position: relative;
-  color: var(--white);
-  background:
-    linear-gradient(90deg, rgba(7,24,38,0.98) 0%, rgba(11,84,162,0.94) 50%, rgba(94,146,60,0.9) 100%),
-    url('images/fall-classic.png') center/cover no-repeat;
-  border-top: 3px solid var(--main);
+/* ===== Annual membership promo ===== */
+.membership-promo {
+  background: #02070c;
   border-bottom: 3px solid var(--main);
-  overflow: hidden;
 }
-.promo-duo::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
-  pointer-events: none;
-}
-.promo-duo .container {
-  position: relative;
-  z-index: 1;
-}
-.promo-duo-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  align-items: start;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-.promo-duo-panel {
-  display: grid;
-  grid-template-columns: minmax(260px, 400px) minmax(0, 1fr);
-  gap: 1.25rem;
-  align-items: start;
-  min-width: 0;
-}
-.promo-duo-media {
-  align-self: start;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.22);
-  aspect-ratio: 600 / 315;
-}
-.promo-duo-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.promo-duo-copy {
-  min-width: 0;
-}
-.promo-duo-kicker {
+.membership-promo-link {
   display: block;
-  color: var(--main);
-  font-family: var(--font-head);
-  font-weight: 800;
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 0.3rem;
+  max-width: 1740px;
+  margin: 0 auto;
 }
-.promo-duo-copy h2 {
-  color: var(--white);
-  font-size: clamp(1.3rem, 2.1vw, 1.75rem);
-  margin-bottom: 0.5rem;
-  text-shadow: 0 3px 18px rgba(0,0,0,0.24);
+.membership-promo-link img {
+  width: 100%;
+  height: auto;
 }
-.promo-duo-highlights {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  list-style: none;
-  margin: 0 0 0.9rem;
-  padding: 0;
-}
-.promo-duo-highlights li {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  color: rgba(255,255,255,0.95);
-  font-weight: 800;
-  font-size: 0.85rem;
-  line-height: 1.25;
-}
-.promo-duo-highlights li::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex: 0 0 auto;
-  background: var(--main);
-  box-shadow: 0 0 0 3px rgba(199,223,35,0.22);
-}
-.promo-duo-cta {
-  display: inline-block;
-  white-space: nowrap;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.22);
-}
-.promo-duo-cta:hover {
-  background: var(--white);
-  color: var(--accent-dark);
+.membership-promo-link:focus-visible {
+  outline: 4px solid var(--main);
+  outline-offset: -4px;
 }
 
 /* ===== Leagues ===== */
@@ -1104,27 +1019,6 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
-}
-
-@media (max-width: 920px) {
-  .promo-duo-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-}
-
-@media (max-width: 560px) {
-  .promo-duo-panel {
-    grid-template-columns: 1fr;
-  }
-  .promo-duo-kicker {
-    font-size: 0.7rem;
-    line-height: 1.35;
-  }
-  .promo-duo-cta {
-    display: block;
-    text-align: center;
-  }
 }
 
 @media (max-width: 760px) {
