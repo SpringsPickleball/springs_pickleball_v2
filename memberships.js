@@ -10,18 +10,18 @@ const SIGNUP = {
 
 const PLANS = {
   guest: {
-    name: 'Free Member Account',
+    name: 'Free Guest',
     variants: {
       single: {
-        annual: { name: 'Free Member Account', amount: 0, label: '/mo', billingText: 'free account; pay as you play' },
-        monthly: { name: 'Free Member Account', amount: 0, label: '/mo', billingText: 'free account; pay as you play' },
+        annual: { name: 'Free Guest', amount: 0, label: '/visit', billingText: 'no monthly dues; pay guest rates' },
+        monthly: { name: 'Free Guest', amount: 0, label: '/visit', billingText: 'no monthly dues; pay guest rates' },
       },
       couples: {
-        annual: { name: 'Free Member Account', amount: 0, label: '/mo', billingText: 'each player creates a free member account' },
-        monthly: { name: 'Free Member Account', amount: 0, label: '/mo', billingText: 'each player creates a free member account' },
+        annual: { name: 'Free Guest', amount: 0, label: '/visit', billingText: 'no monthly dues; pay guest rates' },
+        monthly: { name: 'Free Guest', amount: 0, label: '/visit', billingText: 'no monthly dues; pay guest rates' },
       },
     },
-    description: 'Create a free account to book courts and open play at guest rates.',
+    description: 'No monthly dues. Pay guest rates for courts and open play.',
     perks: [
       'No monthly membership dues',
       'Pay standard guest rates for courts and open play',
@@ -55,11 +55,11 @@ const PLANS = {
     featured: true,
     variants: {
       single: {
-        annual: { name: 'Unlimited Annual Membership Special', amount: 99, label: '/mo', billingText: 'normally $139/mo' },
-        monthly: { name: 'Unlimited Month to Month Membership', amount: 129, label: '/mo', billingText: 'no annual contract' },
+        annual: { name: 'Unlimited Annual Membership', amount: 119, label: '/mo', billingText: 'standard annual rate' },
+        monthly: { name: 'Unlimited Month to Month Membership', amount: 149, label: '/mo', billingText: 'no annual contract' },
       },
       couples: {
-        annual: { name: 'Couples Unlimited Annual Membership Special', amount: 189, label: '/mo', billingText: 'normally $269/mo' },
+        annual: { name: 'Couples Unlimited Annual Membership', amount: 189, label: '/mo', billingText: 'annual membership' },
       },
     },
     description: 'Never pay for open play or doubles court rentals, with 9-day advance reservations.',
@@ -76,16 +76,15 @@ const PLANS = {
     name: 'Unlimited+',
     variants: {
       single: {
-        annual: { name: 'Unlimited+ Annual Membership Special', amount: 139, label: '/mo', billingText: 'normally $169/mo' },
+        annual: { name: 'Unlimited+ Annual Membership', amount: 159, label: '/mo', billingText: 'annual membership' },
       },
       couples: {},
     },
-    description: 'The ultimate membership with free court rentals, open play, leagues, tournaments, clinics, and guest passes.',
+    description: 'The ultimate membership with free open play, court rentals, Springs leagues and tournaments, and guest passes.',
     perks: [
       'Free open play and court rentals for doubles play',
-      'Children under 18 receive Flex rates',
-      'Free Springs Pickleball-hosted leagues and tournaments',
-      '1 free clinic per month ($30 value)',
+      'Free Springs leagues and tournaments',
+      'Free ball machine',
       '10-day advance reservations',
       'Guest passes included',
     ],
@@ -93,8 +92,8 @@ const PLANS = {
 };
 
 const GUEST_RATES = {
-  openPlay: 14,        // per 2-hr session
-  courtPerHr: 30,      // per hour (full court up to 6)
+  openPlay: 16,        // regular rate per 2-hr session; prime-time rate is $20
+  courtPerHr: 34,      // daytime rate per hour (full court up to 6); prime time is $40
   league: 120,         // per 6-week league
   tournament: 60,      // typical tournament entry
   clinic: 30,          // per clinic
@@ -102,11 +101,27 @@ const GUEST_RATES = {
 
 // Flex-member rates for calculator
 const FLEX_RATES = {
-  openPlay: 7,
-  courtPerHr: 15,
+  openPlay: 8,
+  courtPerHr: 17,
   league: 96,          // ~20% off
   tournament: 48,      // ~20% off
 };
+
+// Keep the Unlimited annual promo aligned with its published end date.
+const unlimitedAnnualPromoEnd = '2026-10-15';
+const today = new Date();
+const todayKey = [
+  today.getFullYear(),
+  String(today.getMonth() + 1).padStart(2, '0'),
+  String(today.getDate()).padStart(2, '0'),
+].join('-');
+if (todayKey <= unlimitedAnnualPromoEnd) {
+  Object.assign(PLANS.unlimited.variants.single.annual, {
+    name: 'Unlimited Annual Membership Special',
+    amount: 99,
+    billingText: 'Promo rate through October 15, 2026; standard rate is $119/mo starting October 16.',
+  });
+}
 
 // ---------------------------------------------------------------
 // Render pricing cards based on toggle state
@@ -291,13 +306,10 @@ function calculate() {
 
   const plusMembership = planAnnualCost(PLANS.unlimited_plus, 'annual', party);
   if (plusMembership !== null) {
-    const includedClinicsMonthly = Math.min(clinics, 1) * adultPlayers;
-    const paidClinicsMonthly = Math.max(0, clinics - 1) * adultPlayers;
-    const plusUsage = paidClinicsMonthly * 12 * GUEST_RATES.clinic; // Unlimited+ includes adult leagues, tournaments, and one clinic per month.
+    const plusUsage = adultYearlyClinics * GUEST_RATES.clinic;
     const plusIncludedValue =
       adultYearlyLeagues * GUEST_RATES.league +
-      adultYearlyTourneys * GUEST_RATES.tournament +
-      includedClinicsMonthly * 12 * GUEST_RATES.clinic;
+      adultYearlyTourneys * GUEST_RATES.tournament;
     options.push({
       key: 'unlimited_plus',
       name: PLANS.unlimited_plus.variants[party].annual.name || PLANS.unlimited_plus.name,
@@ -327,7 +339,7 @@ function calculate() {
   const bestIncludedMonthly = best.includedValue / 12;
   const monthlySavings = Math.max(0, vsGuest / 12);
   const bestIsMembership = best.key !== 'guest';
-  const bestIncludesFreeFlexKids = kids > 0 && ['unlimited', 'unlimited_plus'].includes(best.key);
+  const bestIncludesFreeFlexKids = kids > 0 && ['unlimited'].includes(best.key);
   const kidsNote = bestIncludesFreeFlexKids
     ? `<p class="calc-kids-note">Under-18 discount: ${kids} kid${kids === 1 ? '' : 's'} ${kids === 1 ? 'gets' : 'get'} Flex rates with no added Flex dues.</p>`
     : '';
@@ -378,7 +390,7 @@ function calculate() {
           return `<li><strong>${o.name}</strong> — ${moneyMonthly(o.total / 12)}/mo${savingsText} <span>(${money(o.total)}/yr)</span></li>`;
         }).join('')}
       </ol>
-      <p class="calc-note">All values are estimates and subject to change. Kids under 18 are noted as a benefit only and are not factored into play or usage cost estimates. Unlimited+ savings includes Springs Pickleball-hosted leagues and tournaments plus up to one $30 clinic per month. With Unlimited or Unlimited+, kids under 18 get Flex pricing with no added Flex dues. Prime-time and event pricing may vary.</p>
+      <p class="calc-note">All values are estimates using regular daytime rates; prime-time rates are $20 per open-play session and $40 per court hour. Kids under 18 are noted as a benefit only and are not factored into play or usage cost estimates. Unlimited+ savings includes Springs Pickleball-hosted leagues and tournaments. With Unlimited, kids under 18 get Flex pricing with no added Flex dues. Event pricing may vary.</p>
     </div>
   `;
   out.style.display = 'block';
