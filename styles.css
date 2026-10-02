@@ -415,6 +415,25 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-accent:hover { background: var(--main); color: var(--black); }
 
 /* ===== Hero (image background) ===== */
+.home-league-feature {
+  padding: 1.25rem 0;
+  background: #07386d;
+  border-bottom: 4px solid var(--main);
+}
+.home-league-feature .container {
+  max-width: 1320px;
+}
+.home-league-feature a {
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.home-league-feature img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .hero {
   position: relative;
   color: var(--white);
