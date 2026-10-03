@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (href.includes('/Events/') || href.includes('/Leagues/') || href.includes('springspickleballtournaments.com')) return 'events';
     if (href.includes('apps.apple.com')) return 'app_store';
     if (href.includes('play.google.com')) return 'google_play';
-    if (href.includes('instagram.com') || href.includes('youtube.com') || href.includes('facebook.com') || href.includes('chat.whatsapp.com')) return 'social';
+    if (href.includes('instagram.com') || href.includes('youtube.com') || href.includes('facebook.com') || href.includes('app.teamreach.com')) return 'social';
     if (href.startsWith('mailto:')) return 'email';
     if (href.startsWith('tel:')) return 'phone';
     if (a.classList.contains('nav-cta') || a.classList.contains('btn')) return 'cta';
