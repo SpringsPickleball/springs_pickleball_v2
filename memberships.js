@@ -107,22 +107,6 @@ const FLEX_RATES = {
   tournament: 48,      // ~20% off
 };
 
-// Keep the Unlimited annual promo aligned with its published end date.
-const unlimitedAnnualPromoEnd = '2026-10-15';
-const today = new Date();
-const todayKey = [
-  today.getFullYear(),
-  String(today.getMonth() + 1).padStart(2, '0'),
-  String(today.getDate()).padStart(2, '0'),
-].join('-');
-if (todayKey <= unlimitedAnnualPromoEnd) {
-  Object.assign(PLANS.unlimited.variants.single.annual, {
-    name: 'Unlimited Annual Membership Special',
-    amount: 99,
-    billingText: 'Promo rate through October 15, 2026; standard rate is $119/mo starting October 16.',
-  });
-}
-
 // ---------------------------------------------------------------
 // Render pricing cards based on toggle state
 // ---------------------------------------------------------------
