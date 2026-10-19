@@ -415,25 +415,6 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-accent:hover { background: var(--main); color: var(--black); }
 
 /* ===== Hero (image background) ===== */
-.home-league-feature {
-  padding: 1.25rem 0;
-  background: #07386d;
-  border-bottom: 4px solid var(--main);
-}
-.home-league-feature .container {
-  max-width: 1320px;
-}
-.home-league-feature a {
-  display: block;
-  overflow: hidden;
-  border-radius: 8px;
-}
-.home-league-feature img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 .hero {
   position: relative;
   color: var(--white);
@@ -907,7 +888,7 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
 .leagues-head {
   background:
     linear-gradient(90deg, rgba(7,24,38,0.88), rgba(11,84,162,0.6)),
-    url('images/flex_leagues_v3.png') center/cover no-repeat;
+    url('images/east-patio-court-people.jpg') center/cover no-repeat;
 }
 .league-pcol {
   display: grid;
@@ -947,136 +928,6 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   width: 100%;
   height: auto;
 }
-.league-feature {
-  margin: 0 auto 2rem;
-  max-width: 1100px;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 16px 38px rgba(16,24,26,0.12);
-}
-.league-feature img {
-  width: 100%;
-}
-.league-stats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
-  margin-bottom: 3rem;
-}
-.league-stats div {
-  padding: 1.1rem;
-  background: var(--white);
-  border: 1px solid #e4ebe5;
-  border-radius: 8px;
-}
-.league-stats strong {
-  display: block;
-  color: var(--accent);
-  font-family: var(--font-head);
-  font-size: 2rem;
-  line-height: 1;
-}
-.league-stats span {
-  color: var(--muted);
-  font-weight: 700;
-}
-.league-picker {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.85fr) minmax(300px, 1.15fr);
-  gap: 1rem;
-  align-items: end;
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 1.4rem;
-  background: var(--white);
-  border: 1px solid #dfe8dc;
-  border-top: 5px solid var(--main);
-  border-radius: 8px;
-  box-shadow: 0 16px 36px rgba(16,24,26,0.08);
-}
-.league-picker-copy {
-  align-self: center;
-}
-.league-picker-copy h2 {
-  margin-bottom: 0.35rem;
-}
-.league-picker-copy p {
-  color: var(--muted);
-  margin: 0;
-}
-.league-picker-control label {
-  display: block;
-  margin-bottom: 0.45rem;
-  color: var(--black);
-  font-family: var(--font-head);
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.league-picker-control select {
-  width: 100%;
-  min-height: 54px;
-  padding: 0 3rem 0 1rem;
-  color: var(--black);
-  background:
-    linear-gradient(45deg, transparent 50%, var(--accent) 50%) right 1.3rem center / 7px 7px no-repeat,
-    linear-gradient(135deg, var(--accent) 50%, transparent 50%) right 0.95rem center / 7px 7px no-repeat,
-    var(--gray);
-  border: 1px solid #d8e1d5;
-  border-radius: 8px;
-  font: 700 1rem var(--font-body);
-  appearance: none;
-}
-.league-picker-control select:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(11,84,162,0.14);
-  outline: none;
-}
-.league-picker-result {
-  min-height: 96px;
-  padding: 1rem;
-  background: #f8fbf5;
-  border: 1px solid #e0eadb;
-  border-radius: 8px;
-}
-.league-picker-result span,
-.league-picker-result small {
-  display: block;
-  color: var(--muted);
-  font-weight: 700;
-}
-.league-picker-result span {
-  color: var(--accent);
-  font-family: var(--font-head);
-  font-size: 0.76rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.league-picker-result strong {
-  display: block;
-  margin: 0.15rem 0;
-  color: var(--black);
-  font-family: var(--font-head);
-  font-size: 1.25rem;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-.league-picker-cta {
-  align-self: stretch;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.league-picker-cta.disabled {
-  background: #d8e1d5;
-  color: var(--muted) !important;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
-
 @media (max-width: 760px) {
   .league-pcol {
     align-items: flex-start;
@@ -1085,15 +936,6 @@ section.block.alt { background: #f7faf3; border-top: 1px solid #e4ecd9; border-b
   .league-pcol .btn {
     width: 100%;
     text-align: center;
-  }
-  .league-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .league-picker {
-    grid-template-columns: 1fr;
-  }
-  .league-picker-cta {
-    min-height: 52px;
   }
 }
 
