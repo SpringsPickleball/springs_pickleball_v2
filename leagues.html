@@ -153,6 +153,29 @@
   </div>
 </section>
 
+<section class="block alt fs-block" id="flex-standings">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Flex League &middot; <span data-fs-season>Fall 2026</span></span>
+      <h2>Flex League Standings</h2>
+      <p>Every ladder at West and East, straight from CourtReserve. Updated every hour.</p>
+    </div>
+    <div class="fs" id="flexStandings" aria-live="polite">
+      <div class="fs-picker">
+        <div class="fs-venues" role="tablist" aria-label="Location">
+          <button type="button" role="tab" data-fs-venue="EAST">East</button>
+          <button type="button" role="tab" data-fs-venue="WEST">West</button>
+        </div>
+        <div class="fs-ladders" data-fs-ladders aria-label="Ladder"></div>
+      </div>
+      <div class="fs-body" data-fs-body>
+        <p class="fs-status">Loading standings&hellip;</p>
+      </div>
+      <p class="fs-foot" data-fs-foot hidden></p>
+    </div>
+  </div>
+</section>
+
 <footer class="site-footer">
   <div class="container">
     <p class="footer-intro">With two state-of-the-art facilities - on the east side and west side of Colorado Springs - Springs Pickleball offers a total of 19 indoor courts and inviting player lounges. Experience the premier destination for all things pickleball in Colorado Springs.</p>
@@ -212,6 +235,7 @@
 </div>
 
 <script src="main.js"></script>
+<script src="flex-standings.js"></script>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
