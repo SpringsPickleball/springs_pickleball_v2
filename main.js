@@ -328,6 +328,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Coach spotlight photo rotation. Pauses on hover/focus; no autoplay for reduced motion.
+  document.querySelectorAll('[data-slideshow]').forEach(show => {
+    const slides = Array.from(show.querySelectorAll('img'));
+    const dots = Array.from(show.querySelectorAll('.coach-spotlight-dots button'));
+    if (slides.length < 2) return;
+    let current = 0;
+    let timer = null;
+    let paused = false;
+    const goTo = (index) => {
+      slides[current].classList.remove('is-active');
+      dots[current]?.setAttribute('aria-pressed', 'false');
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('is-active');
+      dots[current]?.setAttribute('aria-pressed', 'true');
+    };
+    const start = () => {
+      if (timer || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      timer = setInterval(() => {
+        if (!paused && !document.hidden) goTo(current + 1);
+      }, 4500);
+    };
+    dots.forEach((dot, i) => dot.addEventListener('click', () => {
+      goTo(i);
+      clearInterval(timer);
+      timer = null;
+      start();
+    }));
+    show.addEventListener('mouseenter', () => { paused = true; });
+    show.addEventListener('mouseleave', () => { paused = false; });
+    show.addEventListener('focusin', () => { paused = true; });
+    show.addEventListener('focusout', () => { paused = false; });
+    start();
+  });
+
   // Lazy autoplay event videos: keep large promo files off the critical path.
   document.querySelectorAll('.event-video-card').forEach(card => {
     const video = card.querySelector('video[data-src]');
