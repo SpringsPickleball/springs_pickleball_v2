@@ -59,7 +59,7 @@ const PLANS = {
         monthly: { name: 'Unlimited Month to Month Membership', amount: 149, label: '/mo', billingText: 'no annual contract' },
       },
       couples: {
-        annual: { name: 'Couples Unlimited Annual Membership', amount: 189, label: '/mo', billingText: 'annual membership' },
+        annual: { name: 'Couples Unlimited Annual Membership', amount: 229, label: '/mo', billingText: 'normally $238/mo' },
       },
     },
     description: 'Never pay for open play or doubles court rentals, with 9-day advance reservations.',
