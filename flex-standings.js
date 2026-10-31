@@ -234,6 +234,9 @@
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (d) {
         if (!d || !d.ladders || !d.ladders.length) throw new Error('empty');
+        // next season's ladders are in the file before they start; hide them until their first game day
+        var started = d.ladders.filter(function (l) { return l.week; });
+        if (started.length) d.ladders = started;
         data = d;
         var season = document.querySelector('[data-fs-season]');
         if (season && d.season) season.textContent = d.season;
